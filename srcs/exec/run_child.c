@@ -1,23 +1,21 @@
 #include "exec.h"
 #include "exec_internal.h"
 
-#define ERROR_CODE 127
-
 #define NOT_FOUND "command not found"
 #define DENIED "Permission denied"
 #define ALLOC "Allocation error"
 
-static char	*find_path_check_error(t_exec_cmd *cmd, char **splitted_paths,
+static void	find_path_check_error(t_exec_cmd *cmd, char **splitted_paths,
 								char *joined_path, size_t idx)
 {
 	if (!splitted_paths[idx])
 	{
-		ft_dprintf(STDEER_FILENO, "%s: %s: %s\n", NAME, cmd->name, NOT_FOUND);
+		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, NOT_FOUND);
 		exit(ERROR_CODE);
 	}
 	if (access(joined_path, X_OK) == -1)
 	{
-		ft_dprintf(STDEER_FILENO, "%s: %s: %s\n", NAME, cmd->name, DENIED);
+		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, DENIED);
 		exit(ERROR_CODE);
 	}
 }
@@ -41,7 +39,7 @@ static char	*find_path(t_exec_cmd *cmd, char *paths)
 		joined_path = ft_strjoin_r(to_join, "/");
 		if (!joined_path)
 		{
-			ft_dprintf(STDEER_FILENO, "%s: %s: %s\n", NAME, cmd->name, ALLOC);
+			ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, ALLOC);
 			exit(ERROR_CODE);
 		}
 		if (access(joined_path, F_OK) != -1)
@@ -56,6 +54,7 @@ static char	**get_args(t_exec_cmd *cmd)
 {
 	char	**res;
 
+	(void)cmd;
 	res = NULL;
 	return (res);
 }
@@ -71,16 +70,16 @@ void	run_child(t_exec_cmd *cmd, char *paths, char **envp)
 		dup2(cmd->redir_out, STDOUT_FILENO);
 	if (cmd->redir_err != -1)
 		dup2(cmd->redir_err, STDERR_FILENO);
-	path = find_path(cmd, envp);
+	path = find_path(cmd, paths);
 	if (!path)
 	{
-		ft_dprintf(STDEER_FILENO, "%s: %s: %s\n", NAME, cmd->name, ALLOC);
+		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, ALLOC);
 		exit(ERROR_CODE);
 	}
-	args = get_args(cmd);
+	args = make_argv(cmd->name, cmd->args, NULL);
 	if (!args)
 	{
-		ft_dprintf(STDEER_FILENO, "%s: %s: %s\n", NAME, cmd->name, ALLOC);
+		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, ALLOC);
 		exit(ERROR_CODE);
 	}
 	execve(path, args, envp);

@@ -39,5 +39,6 @@ t_exec_cmd	*exec_add_cmd(t_exec *exec, char *cmd_path, char **cmd_args)
 	cmd->redir_in = -1;
 	cmd->redir_out = -1;
 	cmd->redir_err = -1;
+	cmd->here_doc = 0;
 	return (cmd);
 }

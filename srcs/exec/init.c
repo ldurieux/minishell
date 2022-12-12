@@ -12,7 +12,27 @@
 
 #include "exec.h"
 
-int	exec_init(t_exec *exec, char *paths)
+#define PATH_STR "PATH="
+#define PATH_STR_LEN 5
+
+static char	*get_path(char **envp)
+{
+	char	*path;
+	size_t	idx;
+
+	if (!envp)
+		return (NULL);
+	idx = (size_t)-1;
+	while (envp[++idx])
+		if (ft_strncmp(envp[idx], PATH_STR, PATH_STR_LEN) == 0)
+			break ;
+	if (!envp[idx])
+		return (NULL);
+	path = ft_strdup(envp[idx] + PATH_STR_LEN);
+	return (path);
+}
+
+int	exec_init(t_exec *exec, char **envp)
 {
 	if (!exec)
 		return (0);
@@ -20,8 +40,8 @@ int	exec_init(t_exec *exec, char *paths)
 	if (!exec->cmds)
 		return (0);
 	exec->flags = Exec_None;
-	exec->paths = paths;
-	exec->buffer_in = NULL;
+	exec->envp = envp;
+	exec->paths = get_path(envp);
 	exec->buffer_out = NULL;
 	return (1);
 }
@@ -55,6 +75,5 @@ void	exec_destroy(t_exec *exec)
 		ft_frwlist_delete(exec->cmds);
 	}
 	free(exec->paths);
-	free(exec->buffer_in);
 	free(exec->buffer_out);
 }

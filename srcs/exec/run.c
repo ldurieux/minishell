@@ -13,13 +13,36 @@
 #include "exec.h"
 #include "exec_internal.h"
 
+static int	run_single(t_exec *exec)
+{
+	t_builtin	builtin;
+	t_exec_cmd	*cmd;
+	pid_t		pid;
+
+	cmd = exec->cmds->first->value;
+	builtin = get_builtin(cmd->name);
+	if (builtin)
+		return (run_builltin(cmd, exec->envp));
+	pid = fork();
+	if (pid == 0)
+		run_child(cmd, exec->paths, exec->envp);
+	return (get_child_ret_code(pid));
+}
+
+static int	run_pipe(t_exec *exec)
+{
+	(void)exec;
+	ft_dprintf(STDERR_FILENO, "WIP %s\n", __PRETTY_FUNCTION__);
+	return (1);
+}
+
 int	exec_run(t_exec *exec)
 {
-	int	res;
-
-	res = 0;
+	if (exec->cmds->size <= 0)
+		return (ERROR_CODE);
 	if (exec->cmds->size < 2)
 		exec->flags &= ~Exec_Pipe;
-
-	return (res);
+	if(exec->flags & Exec_Pipe)
+		return (run_pipe(exec));
+	return (run_single(exec));
 }

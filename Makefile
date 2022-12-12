@@ -5,8 +5,18 @@ VERSION		= 0.0.1
 SRCS		= \
 			  main.c \
 			  srcs/exec/init.c \
+			  srcs/exec/run_child.c \
+			  srcs/exec/run_builtin.c \
 			  srcs/exec/run.c \
 			  srcs/exec/add_cmd.c \
+			  srcs/builtin/echo.c \
+			  srcs/builtin/unset.c \
+			  srcs/builtin/cd.c \
+			  srcs/builtin/get_builtin.c \
+			  srcs/builtin/env.c \
+			  srcs/builtin/pwd.c \
+			  srcs/builtin/exit.c \
+			  srcs/builtin/export.c \
 			  srcs/input/input.c \
 			  srcs/input/here_doc.c \
 
