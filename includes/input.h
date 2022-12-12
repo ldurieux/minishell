@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   input.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 22:13:18 by ldurieux          #+#    #+#             */
-/*   Updated: 2022/12/12 16:31:51 by lcrimet          ###   ########lyon.fr   */
+/*   Created: 2022/12/12 10:47:58 by lcrimet           #+#    #+#             */
+/*   Updated: 2022/12/12 15:01:38 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
-#include "input.h"
-#include <stdio.h>
+#ifndef INPUT_H
+# define INPUT_H
 
-int	main(void)
-{
-	t_exec	exec;
-	char	*str;
+# include <signal.h>
+# include <unistd.h>
+# include <curses.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <termios.h>
+# include <stdlib.h>
+# include "libft.h"
+# include "ft_vector.h"
 
-	exec_init(&exec, ft_strdup("/usr/bin"));
-	for (int i = 0; i < 2; i++)
-		exec_add_cmd(&exec, ft_strdup("/usr/bin/ls"), NULL);
-	exec_run(&exec);
-	exec_destroy(&exec);
-	get_input("minishell > ");
-	return (0);
-}
+char	*get_input(char *prompt);
+char	*here_doc(char *end_str);
+
+#endif
