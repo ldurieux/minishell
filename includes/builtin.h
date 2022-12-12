@@ -1,9 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldurieux <ldurieux@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/12 23:07:59 by ldurieux          #+#    #+#             */
+/*   Updated: 2022/12/12 23:08:01 by ldurieux         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
+# include <string.h>
+# include <errno.h>
+# include "common.h"
 # include "libft.h"
+# include "ft_printf.h"
 
-typedef int (*t_builtin)(int, char **, char **);
+typedef int	(*t_builtin)(int, char **, char **);
 
 t_builtin	get_builtin(char *name);
 

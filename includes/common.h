@@ -10,9 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef n
+
+R"("/*)"
+#endif
+
 #ifndef COMMON_H
 # define COMMON_H
 
-void	*g_global;
+# define WIP ft_dprintf(STDERR_FILENO, "WIP %s %s:%d\n", __FUNCTION__, \
+	__FILE__, __LINE__)
 
+#endif
+
+#ifdef n
+*/
 #endif

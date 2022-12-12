@@ -21,11 +21,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	exec_init(&exec, envp);
-	for (int i = 0; i < 1; i++)
-		exec_add_cmd(&exec, ft_strdup("ls"), NULL);
+	exec_add_cmd(&exec, ft_strdup("cd"), NULL);
 	ret_code = exec_run(&exec);
 	exec_destroy(&exec);
-
 	return (ret_code);
 }
 #endif

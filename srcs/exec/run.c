@@ -22,7 +22,7 @@ static int	run_single(t_exec *exec)
 	cmd = exec->cmds->first->value;
 	builtin = get_builtin(cmd->name);
 	if (builtin)
-		return (run_builltin(cmd, exec->envp));
+		return (run_builltin(builtin, cmd, exec->envp));
 	pid = fork();
 	if (pid == 0)
 		run_child(cmd, exec->paths, exec->envp);
@@ -32,7 +32,7 @@ static int	run_single(t_exec *exec)
 static int	run_pipe(t_exec *exec)
 {
 	(void)exec;
-	ft_dprintf(STDERR_FILENO, "WIP %s\n", __PRETTY_FUNCTION__);
+	(void)WIP;
 	return (1);
 }
 
@@ -40,9 +40,7 @@ int	exec_run(t_exec *exec)
 {
 	if (exec->cmds->size <= 0)
 		return (ERROR_CODE);
-	if (exec->cmds->size < 2)
-		exec->flags &= ~Exec_Pipe;
-	if(exec->flags & Exec_Pipe)
+	if (exec->flags & Exec_Pipe)
 		return (run_pipe(exec));
 	return (run_single(exec));
 }

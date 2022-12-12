@@ -12,6 +12,18 @@
 
 #include "exec.h"
 
+static t_exec_cmd	*sanitize_args(t_exec_cmd *cmd, t_exec *exec)
+{
+	cmd->args = malloc(sizeof(char *));
+	if (!cmd->args)
+	{
+		free(ft_frwlist_pop_back(exec->cmds));
+		return (NULL);
+	}
+	cmd->args[0] = NULL;
+	return (cmd);
+}
+
 t_exec_cmd	*exec_add_cmd(t_exec *exec, char *cmd_path, char **cmd_args)
 {
 	t_exec_cmd	*cmd;
@@ -24,16 +36,10 @@ t_exec_cmd	*exec_add_cmd(t_exec *exec, char *cmd_path, char **cmd_args)
 	if (!ft_frwlist_push_back(exec->cmds, cmd))
 		return (free(cmd), NULL);
 	cmd->name = cmd_path;
+	cmd->args = cmd_args;
 	if (!cmd_args)
-	{
-		cmd->args = malloc(sizeof(char *));
-		if (!cmd->args)
-		{
-			free(ft_frwlist_pop_back(exec->cmds));
+		if (!sanitize_args(cmd, exec))
 			return (NULL);
-		}
-		cmd->args[0] = NULL;
-	}
 	if (exec->cmds->size > 1)
 		exec->flags |= Exec_Pipe;
 	cmd->redir_in = -1;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_child.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldurieux <ldurieux@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/12 22:58:10 by ldurieux          #+#    #+#             */
+/*   Updated: 2022/12/12 22:58:14 by ldurieux         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "exec.h"
 #include "exec_internal.h"
 
@@ -16,7 +28,7 @@ static void	find_path_check_error(t_exec_cmd *cmd, char **splitted_paths,
 	if (access(joined_path, X_OK) == -1)
 	{
 		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, DENIED);
-		exit(ERROR_CODE);
+		exit(126);
 	}
 }
 

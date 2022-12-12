@@ -14,6 +14,11 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#ifdef n
+
+R"("/*)"
+#endif
+
 typedef struct s_vars
 {
 	char	*value;
@@ -128,3 +133,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_print_shell_map(vars);
 	return (0);
 }
+
+#ifdef n
+*/
+#endif
