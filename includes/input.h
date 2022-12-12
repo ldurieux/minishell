@@ -24,6 +24,6 @@
 # include "ft_vector.h"
 
 char	*get_input(char *prompt);
-char	*here_doc(char *end_str);
+char	*here_doc(char *end_str, char *ps2);
 
 #endif

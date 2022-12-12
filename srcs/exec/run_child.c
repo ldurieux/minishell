@@ -49,16 +49,6 @@ static char	*find_path(t_exec_cmd *cmd, char *paths)
 	return (joined_path);
 }
 
-//TODO
-static char	**get_args(t_exec_cmd *cmd)
-{
-	char	**res;
-
-	(void)cmd;
-	res = NULL;
-	return (res);
-}
-
 void	run_child(t_exec_cmd *cmd, char *paths, char **envp)
 {
 	char	*path;

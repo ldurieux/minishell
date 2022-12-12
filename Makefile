@@ -4,11 +4,15 @@ VERSION		= 0.0.1
 
 SRCS		= \
 			  main.c \
+			  main_ldurieux.c \
+			  main_lcrimet.c \
 			  srcs/exec/init.c \
 			  srcs/exec/run_child.c \
 			  srcs/exec/run_builtin.c \
 			  srcs/exec/run.c \
 			  srcs/exec/add_cmd.c \
+			  srcs/exec/make_argv.c \
+			  srcs/exec/get_child_ret_code.c \
 			  srcs/builtin/echo.c \
 			  srcs/builtin/unset.c \
 			  srcs/builtin/cd.c \

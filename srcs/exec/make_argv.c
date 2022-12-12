@@ -12,6 +12,9 @@ char	**make_argv(char *cmd, char **args, int *argc)
 		return (NULL);
 	if (!ft_vector_push_back(vec, cmd))
 		return (ft_vector_delete(vec), NULL);
-	if (A)
-	while ()
+	//TODO
+	(void)idx;
+	(void)args;
+	(void)argc;
+	return (NULL);
 }
