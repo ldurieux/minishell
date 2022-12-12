@@ -27,6 +27,7 @@ HEADERS		= \
 CCDEFS		= \
 			  VERSION=\"$(VERSION)\" \
 			  NAME=\"$(NAME)\" \
+			  LDURIEUX \
 
 LIB_NAMES	= \
 			  libft
