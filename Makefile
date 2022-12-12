@@ -3,10 +3,17 @@ NAME		= minishell
 VERSION		= 0.0.1
 
 SRCS		= \
-			  main.c
+			  main.c \
+			  srcs/exec/init.c \
+			  srcs/exec/run.c \
+			  srcs/exec/add_cmd.c \
 
 HEADERS		= \
 			  includes \
+			  
+CCDEFS		= \
+			  VERSION=\"$(VERSION)\" \
+			  NAME=\"$(NAME)\" \
 
 LIB_NAMES	= \
 			  libft
@@ -16,12 +23,14 @@ LIB_LD		= $(foreach lib,$(LIB_NAMES),-L$(lib))
 LIB_PATHS	= $(foreach lib,$(LIB_NAMES),$(lib)/$(notdir $(lib)).a)
 LIB_HEADERS	= $(foreach lib,$(LIB_NAMES),-I$(lib)/includes/)
 
+CCDEFSFLGS	= $(foreach def,$(CCDEFS),-D $(def))
+
 BUILDDIR	= .build
 OBJS		= $(SRCS:%.c=$(BUILDDIR)/%.o) 
 DEPS		= $(SRCS:%.c=$(BUILDDIR)/%.d) 
 CC			= cc
 CCWFLGS		= -Wall -Wextra -Werror
-CCDBGFLGS	= -fsanitize=address -g3 -DDEBUG
+CCDBGFLGS	= -DDEBUG -g #-fsanitize=address
 CCDEPSFLAGS	= -MMD -MP
 RM			= rm -Rf
 MAKE		= make -C
@@ -54,7 +63,7 @@ re : fclean all
 
 $(BUILDDIR)/%.o : %.c Makefile $(LIB_PATHS)
 		@mkdir -p $(@D)
-		$(CC) $(CCWFLGS) $(CCDEPSFLAGS) $(CCDBGFLGS) -DVERSION=$(VERSION) -I$(HEADERS) $(LIB_HEADERS) -c $< -o $@
+		$(CC) $(CCWFLGS) $(CCDEPSFLAGS) $(CCDBGFLGS) $(CCDEFSFLGS) -I$(HEADERS) $(LIB_HEADERS) -c $< -o $@
 
 banner :
 		@echo -e "\e[1m\e[38;5;27m    _____  .__ \e[38;5;33m      .__ \e[31m   _______.__           .__  .__   "

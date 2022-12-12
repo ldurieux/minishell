@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldurieux <ldurieux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 22:13:18 by ldurieux          #+#    #+#             */
-/*   Updated: 2022/12/09 22:13:20 by ldurieux         ###   ########lyon.fr   */
+/*   Created: 2022/12/11 10:06:26 by ldurieux          #+#    #+#             */
+/*   Updated: 2022/12/11 10:06:28 by ldurieux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "exec_internal.h"
 
-int	main(void)
+int	exec_run(t_exec *exec)
 {
-	t_exec exec;
+	int	res;
 
-	exec_init(&exec, ft_strdup("/usr/bin"));
-	for (int i = 0; i < 2; i++)
-		exec_add_cmd(&exec, ft_strdup("/usr/bin/ls"), NULL);
-	exec_run(&exec);
-	exec_destroy(&exec);
+	res = 0;
+	if (exec->cmds->size < 2)
+		exec->flags &= ~Exec_Pipe;
 
-	return (0);
+	return (res);
 }
