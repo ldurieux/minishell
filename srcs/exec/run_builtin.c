@@ -15,15 +15,12 @@
 
 #define ALLOC "Allocation error"
 
-//TODO
-//redirect output when not being executed in pipe
 int	run_builltin(t_builtin builtin, t_exec_cmd *cmd, char **envp)
 {
 	char	**argv;
 	int		argc;
 	int		res;
 
-	(void)WIP;
 	argv = make_argv(cmd->name, cmd->args, &argc);
 	if (!argv)
 	{

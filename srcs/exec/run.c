@@ -18,11 +18,17 @@ static int	run_single(t_exec *exec)
 	t_builtin	builtin;
 	t_exec_cmd	*cmd;
 	pid_t		pid;
+	int			res;
 
 	cmd = exec->cmds->first->value;
 	builtin = get_builtin(cmd->name);
 	if (builtin)
-		return (run_builltin(builtin, cmd, exec->envp));
+	{
+		redir_parent(cmd);
+		res = run_builltin(builtin, cmd, exec->envp);
+		restore_redir(cmd);
+		return (res);
+	}
 	pid = fork();
 	if (pid == -1)
 	{

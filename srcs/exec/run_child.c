@@ -66,12 +66,11 @@ void	run_child(t_exec_cmd *cmd, char *paths, char **envp)
 	char	*path;
 	char	**args;
 
-	if (cmd->redir_in != -1)
-		dup2(cmd->redir_in, STDIN_FILENO);
-	if (cmd->redir_out != -1)
-		dup2(cmd->redir_out, STDOUT_FILENO);
-	if (cmd->redir_err != -1)
-		dup2(cmd->redir_err, STDERR_FILENO);
+	if (!redir_fork(cmd))
+	{
+		ft_dprintf(STDERR_FILENO, "%s: %s\n", NAME, strerror(errno));
+		exit(ERROR_CODE);
+	}
 	path = find_path(cmd, paths);
 	if (!path)
 	{

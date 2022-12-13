@@ -10,6 +10,7 @@ SRCS		= \
 			  srcs/exec/run_child.c \
 			  srcs/exec/run_builtin.c \
 			  srcs/exec/run.c \
+			  srcs/exec/redir.c \
 			  srcs/exec/add_cmd.c \
 			  srcs/exec/make_argv.c \
 			  srcs/exec/get_child_ret_code.c \
@@ -52,7 +53,7 @@ OBJS		= $(SRCS:%.c=$(BUILDDIR)/%.o)
 DEPS		= $(SRCS:%.c=$(BUILDDIR)/%.d) 
 CC			= cc
 CCWFLGS		= -Wall -Wextra -Werror
-CCDBGFLGS	= -DDEBUG -g #-fsanitize=address
+CCDBGFLGS	= -DDEBUG -g -fsanitize=address
 CCDEPSFLAGS	= -MMD -MP
 RM			= rm -Rf
 MAKE		= make -C

@@ -11,18 +11,25 @@
 /* ************************************************************************** */
 
 #ifdef LDURIEUX
+
 #include "exec.h"
+#include "ft_printf.h"
+#include <fcntl.h>
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_exec	exec;
-	int		ret_code;
+	t_exec		exec;
+	t_exec_cmd	*cmd;
+	int			ret_code;
 
 	(void)argc;
 	(void)argv;
 	exec_init(&exec, envp);
-	exec_add_cmd(&exec, ft_strdup("cd"), NULL);
+	cmd = exec_add_cmd(&exec, ft_strdup("ls"), NULL);
+	cmd->redir_out = open("test.txt", O_WRONLY | O_CREAT, 0644);
+	ft_printf("before\n");
 	ret_code = exec_run(&exec);
+	ft_printf("after\n");
 	exec_destroy(&exec);
 	return (ret_code);
 }
