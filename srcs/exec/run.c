@@ -24,6 +24,11 @@ static int	run_single(t_exec *exec)
 	if (builtin)
 		return (run_builltin(builtin, cmd, exec->envp));
 	pid = fork();
+	if (pid == -1)
+	{
+		ft_dprintf(STDERR_FILENO, "%d: %d\n", NAME, "fork error");
+		return (ERROR_CODE);
+	}
 	if (pid == 0)
 		run_child(cmd, exec->paths, exec->envp);
 	return (get_child_ret_code(pid));
