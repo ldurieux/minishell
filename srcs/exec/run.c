@@ -40,11 +40,44 @@ static int	run_single(t_exec *exec)
 	return (get_child_ret_code(pid));
 }
 
+static pid_t	*run_pipe_init(t_exec *exec, size_t *idx, int *cur_pipes)
+{
+	pid_t	*res;
+
+	*idx = (size_t)-1;
+	*cur_pipes = 0;
+	res = ft_calloc(sizeof(pid_t), exec->cmds->size);
+	if (!res)
+		ft_dprintf(STDERR_FILENO, "%d: %d\n", NAME, "allocation error");
+	return (res);
+}
+
 static int	run_pipe(t_exec *exec)
 {
-	(void)exec;
-	(void)WIP;
-	return (1);
+	int					pipes[4];
+	int					cur_pipes;
+	t_ftfrwlist_node	*node;
+	pid_t				*pids;
+	size_t				idx;
+
+	pids = run_pipe_init(exec, &idx, &cur_pipes);
+	if (!pids)
+		return (ERROR_CODE);
+	node = exec->cmds->first;
+	while (node)
+	{
+		pids[++idx] = run_pipe_internal(node->value, pipes, cur_pipes,
+				(node == exec->cmds->first) + ((node->next == NULL) << 1));
+		if (pids[idx] == -1)
+			return (free(pids), ERROR_CODE);
+		if (pids[idx] == 0)
+			run_child(node->value, exec->paths, exec->envp);
+		if (node->next)
+			close((pipes + (size_t)(cur_pipes * 2))[PIPE_IN]);
+		cur_pipes = !cur_pipes;
+		node = node->next;
+	}
+	return (get_pipe_ret_code(pids, exec->cmds->size));
 }
 
 int	exec_run(t_exec *exec)

@@ -17,7 +17,7 @@
 #define DENIED "Permission denied"
 #define ALLOC "Allocation error"
 
-static void	find_path_check_error(t_exec_cmd *cmd, char **splitted_paths,
+static char	*find_path_check_error(t_exec_cmd *cmd, char **splitted_paths,
 								char *joined_path, size_t idx)
 {
 	if (!splitted_paths[idx])
@@ -30,6 +30,7 @@ static void	find_path_check_error(t_exec_cmd *cmd, char **splitted_paths,
 		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, DENIED);
 		exit(126);
 	}
+	return (joined_path);
 }
 
 static char	*find_path(t_exec_cmd *cmd, char *paths)
@@ -45,6 +46,7 @@ static char	*find_path(t_exec_cmd *cmd, char *paths)
 	if (!splitted_paths)
 		return (NULL);
 	idx = (size_t)-1;
+	joined_path = NULL;
 	while (splitted_paths[++idx])
 	{
 		to_join[0] = splitted_paths[idx];
@@ -57,8 +59,7 @@ static char	*find_path(t_exec_cmd *cmd, char *paths)
 		if (access(joined_path, F_OK) != -1)
 			break ;
 	}
-	find_path_check_error(cmd, splitted_paths, joined_path, idx);
-	return (joined_path);
+	return (find_path_check_error(cmd, splitted_paths, joined_path, idx));
 }
 
 void	run_child(t_exec_cmd *cmd, char *paths, char **envp)

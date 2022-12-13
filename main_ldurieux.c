@@ -19,17 +19,14 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_exec		exec;
-	t_exec_cmd	*cmd;
 	int			ret_code;
 
 	(void)argc;
 	(void)argv;
 	exec_init(&exec, envp);
-	cmd = exec_add_cmd(&exec, ft_strdup("ls"), NULL);
-	cmd->redir_out = open("test.txt", O_WRONLY | O_CREAT, 0644);
-	ft_printf("before\n");
+	exec_add_cmd(&exec, ft_strdup("ls"), NULL);
+	exec_add_cmd(&exec, ft_strdup("wc"), NULL);
 	ret_code = exec_run(&exec);
-	ft_printf("after\n");
 	exec_destroy(&exec);
 	return (ret_code);
 }

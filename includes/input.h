@@ -23,7 +23,7 @@
 # include "libft.h"
 # include "ft_vector.h"
 
-char	*get_input(char *prompt);
+char	*get_input(char *ps1);
 char	*here_doc(char *end_str, char *ps2);
 
 #endif

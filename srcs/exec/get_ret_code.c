@@ -21,3 +21,16 @@ int	get_child_ret_code(pid_t child_pid)
 	ret_code = WEXITSTATUS(ret_code);
 	return (ret_code);
 }
+
+int	get_pipe_ret_code(pid_t *pids, size_t count)
+{
+	int		ret_code;
+	size_t	idx;
+
+	ret_code = ERROR_CODE;
+	idx = (size_t)-1;
+	while (++idx < count)
+		ret_code = get_child_ret_code(pids[idx]);
+	free(pids);
+	return (ret_code);
+}

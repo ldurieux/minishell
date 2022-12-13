@@ -10,11 +10,12 @@ SRCS		= \
 			  srcs/exec/destroy.c \
 			  srcs/exec/run_child.c \
 			  srcs/exec/run_builtin.c \
+			  srcs/exec/run_pipe_internal.c \
 			  srcs/exec/run.c \
 			  srcs/exec/redir.c \
 			  srcs/exec/add_cmd.c \
 			  srcs/exec/make_argv.c \
-			  srcs/exec/get_child_ret_code.c \
+			  srcs/exec/get_ret_code.c \
 			  srcs/builtin/echo.c \
 			  srcs/builtin/unset.c \
 			  srcs/builtin/cd.c \
