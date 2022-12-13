@@ -19,13 +19,14 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_exec		exec;
+	t_exec_cmd	*cmd;
 	int			ret_code;
 
 	(void)argc;
 	(void)argv;
 	exec_init(&exec, envp);
-	exec_add_cmd(&exec, ft_strdup("ls"), NULL);
-	exec_add_cmd(&exec, ft_strdup("wc"), NULL);
+	cmd = exec_add_cmd(&exec, ft_strdup("pwd"), NULL);
+	cmd->here_doc = ft_strdup("FIN");
 	ret_code = exec_run(&exec);
 	exec_destroy(&exec);
 	return (ret_code);

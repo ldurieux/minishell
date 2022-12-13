@@ -16,7 +16,16 @@ static void	handle_abort_line(int sign)
 {
 	(void) sign;
 	write(1, "\n", 1);
-	exit (1);
+	exit(1);
+}
+
+char	*here_doc_res(t_ftvector *vec)
+{
+	char	*res;
+
+	res = vec->data;
+	free(vec);
+	return (res);
 }
 
 char	*here_doc(char *end_str, char *ps2)
@@ -44,5 +53,5 @@ char	*here_doc(char *end_str, char *ps2)
 	}
 	ft_vector_push_back(str, "\0");
 	tcsetattr(STDIN_FILENO, TCSANOW, &saved);
-	return (str->data);
+	return (here_doc_res(str));
 }

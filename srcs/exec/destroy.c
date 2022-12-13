@@ -29,6 +29,7 @@ static void	free_exec_cmd(void *ptr)
 			free(cmd->args[idx]);
 		free(cmd->args);
 	}
+	free(cmd->here_doc);
 	free(cmd);
 }
 

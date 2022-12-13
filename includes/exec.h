@@ -30,7 +30,7 @@ typedef struct s_exec_cmd
 	int		redir_in;
 	int		redir_out;
 	int		redir_err;
-	int		here_doc;
+	char	*here_doc;
 }	t_exec_cmd;
 
 typedef struct s_exec

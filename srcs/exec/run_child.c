@@ -12,6 +12,7 @@
 
 #include "exec.h"
 #include "exec_internal.h"
+#include "input.h"
 
 #define NOT_FOUND "command not found"
 #define DENIED "Permission denied"
@@ -62,28 +63,47 @@ static char	*find_path(t_exec_cmd *cmd, char *paths)
 	return (find_path_check_error(cmd, splitted_paths, joined_path, idx));
 }
 
+static int	read_here_doc(t_exec_cmd *cmd)
+{
+	char	*buffer;
+	int		pipes[2];
+
+	if (!cmd->here_doc)
+		return (1);
+	buffer = here_doc(cmd->here_doc, "> ");
+	if (!buffer)
+		return (0);
+	if (pipe(pipes) == -1)
+		return (free(buffer), 0);
+	write(pipes[PIPE_IN], buffer, ft_strlen(buffer));
+	if (dup2(pipes[PIPE_OUT], STDIN_FILENO) == -1)
+		return (free(buffer), 0);
+	close(pipes[PIPE_OUT]);
+	close(pipes[PIPE_IN]);
+	return (1);
+}
+
+static int	run_child_error(t_exec_cmd *cmd, char *error, int ret)
+{
+	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, error);
+	return (ret);
+}
+
 void	run_child(t_exec_cmd *cmd, char *paths, char **envp)
 {
 	char	*path;
 	char	**args;
 
 	if (!redir_fork(cmd))
-	{
-		ft_dprintf(STDERR_FILENO, "%s: %s\n", NAME, strerror(errno));
-		exit(ERROR_CODE);
-	}
+		exit(run_child_error(cmd, strerror(errno), ERROR_CODE));
 	path = find_path(cmd, paths);
 	if (!path)
-	{
-		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, ALLOC);
-		exit(ERROR_CODE);
-	}
+		exit(run_child_error(cmd, ALLOC, ERROR_CODE));
 	args = make_argv(cmd->name, cmd->args, NULL);
 	if (!args)
-	{
-		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, ALLOC);
-		exit(ERROR_CODE);
-	}
+		exit(run_child_error(cmd, ALLOC, ERROR_CODE));
+	if (!read_here_doc(cmd))
+		exit(run_child_error(cmd, strerror(errno), 130));
 	execve(path, args, envp);
 	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, strerror(errno));
 	exit(ERROR_CODE);
