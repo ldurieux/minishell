@@ -43,6 +43,8 @@ void			*ft_map_find(t_ftmap *this, const char *key);
 void			ft_map_iter(t_ftmap *this, void (*f)(void *));
 void			ft_map_iter_node(t_ftmap *this, void (*f)(char *, void *));
 
+void			*ft_map_to_array(t_ftmap *this, void *(*f)(void *));
+
 //NOLINTBEGIN(readability-magic-numbers)
 static inline uint64_t	ft_map_hash(const char *key)
 {
