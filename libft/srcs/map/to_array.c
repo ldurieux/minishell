@@ -29,7 +29,7 @@ void	*ft_map_to_array(t_ftmap *this, void *(*f)(void *))
 		return (NULL);
 	bucket_idx = (size_t)-1;
 	arr_idx = 0;
-	while (++bucket_idx)
+	while (++bucket_idx < this->_capacity)
 		bucket_to_array(this->_buckets + bucket_idx, arr, &arr_idx, f);
 	arr[this->size] = NULL;
 	return (arr);
