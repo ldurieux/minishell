@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vars.c                                             :+:      :+:    :+:   */
+/*   add_vars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/12 16:35:38 by lcrimet           #+#    #+#             */
-/*   Updated: 2022/12/13 15:21:41 by lcrimet          ###   ########lyon.fr   */
+/*   Created: 2022/12/13 15:21:51 by lcrimet           #+#    #+#             */
+/*   Updated: 2022/12/13 15:22:07 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vars.h"
 
-static void	ft_free_var(void *var)
+static int	ft_find(t_ftmap *vars, t_vars *map_val)
 {
-	free(((t_vars *)var)->name);
-	free(var);
+	t_vars	*find;
+
+	find = ft_map_find(vars, map_val->name);
+	if (!find)
+	{
+		if (!ft_map_insert(vars, map_val->name, map_val))
+			return (ft_free_map(vars), 0);
+	}
+	else
+	{
+		free(map_val->name);
+		find->value = map_val->value;
+		find->env = (find->env || map_val->env);
+		free(map_val);
+	}
+	return (1);
 }
 
-void	ft_free_map(t_ftmap *vars)
-{
-	ft_map_iter(vars, ft_free_var);
-	ft_map_delete(vars);
-}
-
-static t_vars	*ft_fill_map_val(char *envp)
+t_ftmap	*ft_add_var(char *envp, uint8_t env, t_ftmap *vars)
 {
 	t_vars	*map_val;
 
@@ -34,34 +42,10 @@ static t_vars	*ft_fill_map_val(char *envp)
 	map_val->name = ft_strtok_r((const char *)envp, "=",
 			(const char **)&map_val->value);
 	if (!map_val->name || !*map_val->value)
-	{
-		free(map_val->name);
-		free(map_val);
-		return (NULL);
-	}
+		return (free(map_val->name), free(map_val), NULL);
 	map_val->value++;
-	map_val->env = 1;
-	return (map_val);
-}
-
-t_ftmap	*get_vars(char **envp)
-{
-	int		i;
-	t_ftmap	*vars;
-	t_vars	*map_val;
-
-	i = 0;
-	vars = ft_map_new(128);
-	if (!vars)
+	map_val->env = env;
+	if (!ft_find(vars, map_val))
 		return (0);
-	while (envp && envp[i])
-	{
-		map_val = ft_fill_map_val(envp[i]);
-		if (!map_val)
-			return (ft_free_map(vars), NULL);
-		if (!ft_map_insert(vars, map_val->name, map_val))
-			return (ft_free_map(vars), NULL);
-		i++;
-	}
 	return (vars);
 }

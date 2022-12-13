@@ -26,6 +26,7 @@ SRCS		= \
 			  srcs/vars/vars.c \
 			  srcs/vars/vars_print.c \
 			  srcs/vars/vars_convert.c \
+			  srcs/vars/add_vars.c \
 
 
 HEADERS		= \
@@ -97,12 +98,12 @@ $(BUILDDIR)/%.o : %.c Makefile $(LIB_PATHS)
 		$(CC) $(CCWFLGS) $(CCDEPSFLAGS) $(CCDBGFLGS) $(CCDEFSFLGS) -I$(HEADERS) $(LIB_HEADERS) -c $< -o $@
 
 banner :
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m    _____  .__ \x1b[38;5;33m      .__ \x1b[31m   _______.__           .__  .__   "
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m   /     \ |__|\x1b[38;5;33m ____ |__|\x1b[31m  /   ____/  |__   ____ |  | |  |  "
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m  /  \ /  \|  |\x1b[38;5;33m/    \|  |\x1b[31m  \____  \|  |  \_/ __ \|  | |  |  "
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m /    Y    \  |\x1b[38;5;33m   |  \  |\x1b[31m  /       \   Y  \  ___/|  |_|  |__"
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m \____|__  /__|\x1b[38;5;33m___|  /__|\x1b[31m /______  /___|  /\___  >____/____/"
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m         \/    \x1b[38;5;33m    \/    \x1b[31m        \/     \/     \/    \x1b[0mversion \x1b[1m$(VERSION)\x1b[0m"
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m    _____  .__       .__ \x1b[31m   _______.__           .__  .__   "
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m   /     \ |__| ____ |__|\x1b[31m  /   ____/  |__   ____ |  | |  |  "
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m  /  \ /  \|  |/    \|  |\x1b[31m  \____  \|  |  \_/ __ \|  | |  |  "
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m /    Y    \  |   |  \  |\x1b[31m  /       \   Y  \  ___/|  |_|  |__"
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m \____|__  /__|___|  /__|\x1b[31m /______  /___|  /\___  >____/____/"
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m         \/        \/    \x1b[31m        \/     \/     \/    \x1b[0mversion \x1b[1m$(VERSION)\x1b[0m"
 
 .PHONY: all clean fclean re bonus libs banner
 
