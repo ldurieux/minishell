@@ -49,9 +49,16 @@ static int	run_pipe(t_exec *exec)
 
 int	exec_run(t_exec *exec)
 {
+	int	res;
+
+	if (!exec || !exec->cmds)
+		return (ERROR_CODE);
 	if (exec->cmds->size <= 0)
 		return (ERROR_CODE);
 	if (exec->flags & Exec_Pipe)
-		return (run_pipe(exec));
-	return (run_single(exec));
+		res = run_pipe(exec);
+	else
+		res = run_single(exec);
+	clean(exec);
+	return (res);
 }

@@ -38,4 +38,6 @@ int		redir_fork(t_exec_cmd *cmd);
 char	**make_argv(char *cmd, char **args, int *argc);
 int		get_child_ret_code(pid_t child_pid);
 
+void	clean(t_exec *exec);
+
 #endif // EXEC_INTERNAL_H

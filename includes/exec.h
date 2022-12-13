@@ -58,6 +58,18 @@ int			exec_init(t_exec *exec, char **envp);
 void		exec_destroy(t_exec *exec);
 
 /**
+ * @brief update environment variables, it has be called
+ *		  after every call to `exec_run` if you intend
+ *		  to use the same struc again
+ *		  `envp` will NOT be freed
+ *		  `exec.buffer_out` WILL BE SET to `NULL` and NOT freed
+ * @param struct to update
+ * @param array of environment variables
+ * @return 0 if failed, 1 otherwise
+ */
+int			exec_update(t_exec *exec, char **envp);
+
+/**
  * @brief add a command to the pipeline.
  *		  `cmd_path` and `cmd_args` will be freed by `exec_destroy` and
  *		  should not be freed manually unless this function failed then they

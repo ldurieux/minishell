@@ -7,6 +7,7 @@ SRCS		= \
 			  main_ldurieux.c \
 			  main_lcrimet.c \
 			  srcs/exec/init.c \
+			  srcs/exec/destroy.c \
 			  srcs/exec/run_child.c \
 			  srcs/exec/run_builtin.c \
 			  srcs/exec/run.c \

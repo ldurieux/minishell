@@ -46,34 +46,12 @@ int	exec_init(t_exec *exec, char **envp)
 	return (1);
 }
 
-static void	free_exec_cmd(void *ptr)
+int	exec_update(t_exec *exec, char **envp)
 {
-	size_t		idx;
-	t_exec_cmd	*cmd;
-
-	cmd = ptr;
-	if (!cmd)
-		return ;
-	free(cmd->name);
-	if (cmd->args)
-	{
-		idx = (size_t) - 1;
-		while (cmd->args[++idx])
-			free(cmd->args[idx]);
-		free(cmd->args);
-	}
-	free(cmd);
-}
-
-void	exec_destroy(t_exec *exec)
-{
-	if (!exec)
-		return ;
-	if (exec->cmds)
-	{
-		ft_frwlist_iter(exec->cmds, free_exec_cmd);
-		ft_frwlist_delete(exec->cmds);
-	}
-	free(exec->paths);
-	free(exec->buffer_out);
+	if (!exec || !exec->cmds)
+		return (0);
+	exec->envp = envp;
+	exec->paths = get_path(envp);
+	exec->buffer_out = NULL;
+	return (1);
 }
