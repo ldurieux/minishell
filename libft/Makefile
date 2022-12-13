@@ -31,6 +31,7 @@ SRCS		= \
 			  srcs/map/iter.c \
 			  srcs/map/new.c \
 			  srcs/map/remove.c \
+			  srcs/map/to_array.c \
 			  srcs/math/ft_factorial.c \
 			  srcs/math/ft_power.c \
 			  srcs/mem/ft_bzero.c \

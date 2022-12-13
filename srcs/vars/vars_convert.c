@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   common.h                                           :+:      :+:    :+:   */
+/*   vars_convert.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/12 15:22:24 by lcrimet           #+#    #+#             */
-/*   Updated: 2022/12/13 10:22:44 by lcrimet          ###   ########lyon.fr   */
+/*   Created: 2022/12/13 11:13:26 by lcrimet           #+#    #+#             */
+/*   Updated: 2022/12/13 11:27:02 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef n
+#include "vars.h"
 
-a > a
-#endif
+static void	*create_var(void *ptr)
+{
+	t_vars	*vars;
+	char	*str;
+	char	**tab;
 
-#ifndef COMMON_H
-# define COMMON_H
+	vars = (t_vars *)ptr;
+	tab = malloc(sizeof(char *) * 3);
+	tab[2] = NULL;
+	tab[0] = vars->name;
+	tab[1] = vars->value;
+	str = ft_strjoin_r(tab, "=");
+	return (str);
+}
 
-# define WIP ft_dprintf(STDERR_FILENO, "WIP %s %s:%d\n", __FUNCTION__, \
-	__FILE__, __LINE__)
+char	**ft_vars_to_envp(t_ftmap *vars)
+{
+	char	**envp;
 
-#endif
+	envp = ft_map_to_array(vars, create_var);
+	return (envp);
+}

@@ -12,7 +12,7 @@ static void	bucket_to_array(t_ftfrwlist *bucket, void **arr,
 		map_node = list_node->value;
 		arr[*arr_idx] = f(map_node->value);
 		list_node = list_node->next;
-		*arr_idx++;
+		(*arr_idx)++;
 	}
 }
 

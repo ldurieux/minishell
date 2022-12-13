@@ -6,15 +6,16 @@
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 17:36:38 by ldurieux          #+#    #+#             */
-/*   Updated: 2022/12/13 10:21:45 by lcrimet          ###   ########lyon.fr   */
+/*   Updated: 2022/12/12 10:40:53 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
+# include <sys/wait.h>
+# include <unistd.h>
 # include "ft_frwlist.h"
-# include "common.h"
 
 typedef enum e_exec_flags
 {
@@ -30,29 +31,27 @@ typedef struct s_exec_cmd
 	int		redir_in;
 	int		redir_out;
 	int		redir_err;
-	int		here_doc;
 }	t_exec_cmd;
 
 typedef struct s_exec
 {
 	t_ftfrwlist		*cmds;
 	t_exec_flags	flags;
-	char			**envp;
 	char			*paths;
+	char			*buffer_in;
 	char			*buffer_out;
 }	t_exec;
 
 /**
  * @brief initialize pipeline
- *		  `envp` will NOT be freed when `destroy` is called
+ *		  `paths` will be freed when `destroy` is called
  * @param struct to initialize
- * @param array of environment variables
  * @return 0 if failed, 1 otherwise
  */
-int			exec_init(t_exec *exec, char **envp);
+int			exec_init(t_exec *exec, char *paths);
 
 /**
- * @brief free everything in exec but not exec itself
+ * @brief free everything in pipeline
  * @param struct to free
  */
 void		exec_destroy(t_exec *exec);

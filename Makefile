@@ -23,6 +23,9 @@ SRCS		= \
 			  srcs/builtin/export.c \
 			  srcs/input/input.c \
 			  srcs/input/here_doc.c \
+			  srcs/vars/vars.c \
+			  srcs/vars/vars_print.c \
+			  srcs/vars/vars_convert.c \
 
 
 HEADERS		= \
@@ -31,7 +34,7 @@ HEADERS		= \
 CCDEFS		= \
 			  VERSION=\"$(VERSION)\" \
 			  NAME=\"$(NAME)\" \
-			  LDURIEUX \
+			  LCRIMET \
 
 LIB_NAMES	= \
 			  libft
@@ -61,8 +64,8 @@ ifeq ($(UNAME), Linux)
 endif
 
 LIBS		+= -lreadline
-LIB_LD		+= -L~/.brew/opt/readline/lib
-LIB_HEADERS	+= -I~/.brew/opt/readline/include
+LIB_LD		+= -L ~/.brew/opt/readline/lib
+LIB_HEADERS	+= -I ~/.brew/opt/readline/include
 
 all : banner libs $(NAME)
 
