@@ -21,6 +21,7 @@ int	run_builltin(t_builtin builtin, t_exec_cmd *cmd, char **envp)
 {
 	char	**argv;
 	int		argc;
+	int		res;
 
 	(void)WIP;
 	argv = make_argv(cmd->name, cmd->args, &argc);
@@ -29,5 +30,7 @@ int	run_builltin(t_builtin builtin, t_exec_cmd *cmd, char **envp)
 		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, ALLOC);
 		return (127);
 	}
-	return (builtin(argc, argv, envp));
+	res = builtin(argc, argv, envp);
+	free(argv);
+	return (res);
 }

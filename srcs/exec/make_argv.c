@@ -24,7 +24,7 @@ char	**make_argv(char *cmd, char **args, int *argc)
 			;
 	else
 		idx = 0;
-	argv = malloc(sizeof(char **) * idx + 2);
+	argv = malloc(sizeof(char *) * (idx + 2));
 	if (!argv)
 		return (NULL);
 	if (argc)
