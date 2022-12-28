@@ -40,6 +40,7 @@ typedef struct s_exec
 	char			**envp;
 	char			*paths;
 	char			*buffer_out;
+	int				buffer_fd;
 }	t_exec;
 
 /**
@@ -60,7 +61,7 @@ void		exec_destroy(t_exec *exec);
 /**
  * @brief update environment variables, it has be called
  *		  after every call to `exec_run` if you intend
- *		  to use the same struc again
+ *		  to use the same struct again
  *		  `envp` will NOT be freed
  *		  `exec.buffer_out` WILL BE SET to `NULL` and NOT freed
  * @param struct to update

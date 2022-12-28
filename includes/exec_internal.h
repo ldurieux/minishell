@@ -17,6 +17,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include "ft_vector.h"
+# include "ft_frwlist.h"
 # include "ft_printf.h"
 # include "libft.h"
 # include "builtin.h"
@@ -37,8 +38,8 @@ int		restore_redir(t_exec_cmd *cmd);
 int		redir_fork(t_exec_cmd *cmd);
 
 char	**make_argv(char *cmd, char **args, int *argc);
-int		get_child_ret_code(pid_t child_pid);
-int		get_pipe_ret_code(pid_t *pids, size_t count);
+int		get_child_ret_code(t_exec *exec, pid_t child_pid);
+int		get_pipe_ret_code(t_exec *exec, pid_t *pids, size_t count);
 
 void	clean(t_exec *exec);
 

@@ -44,6 +44,7 @@ void	exec_destroy(t_exec *exec)
 	}
 	free(exec->paths);
 	free(exec->buffer_out);
+	exec->buffer_fd = -1;
 }
 
 void	clean(t_exec *exec)
@@ -58,4 +59,5 @@ void	clean(t_exec *exec)
 	exec->paths = NULL;
 	exec->envp = NULL;
 	exec->flags = Exec_None;
+	exec->buffer_fd = -1;
 }

@@ -37,7 +37,7 @@ static int	run_single(t_exec *exec)
 	}
 	if (pid == 0)
 		run_child(cmd, exec->paths, exec->envp);
-	return (get_child_ret_code(pid));
+	return (get_child_ret_code(exec, pid));
 }
 
 static pid_t	*run_pipe_init(t_exec *exec, size_t *idx, int *cur_pipes)
@@ -77,7 +77,35 @@ static int	run_pipe(t_exec *exec)
 		cur_pipes = !cur_pipes;
 		node = node->next;
 	}
-	return (get_pipe_ret_code(pids, exec->cmds->size));
+	return (get_pipe_ret_code(exec, pids, exec->cmds->size));
+}
+
+static int	exec_buf(t_exec *exec)
+{
+	int	save_stdout;
+	int	pipes[2];
+	int	res;
+
+	if (pipe(pipes) == -1)
+		return (ft_dprintf(STDERR_FILENO, "%d: %d\n", NAME, strerror(errno)),
+			0);
+	save_stdout = dup(STDOUT_FILENO);
+	if (save_stdout == -1)
+		return (ft_dprintf(STDERR_FILENO, "%d: %d\n", NAME, strerror(errno)),
+			close(pipes[0]), close(pipes[1]), 0);
+	if (dup2(pipes[1], STDOUT_FILENO) == -1)
+	{
+		ft_dprintf(STDERR_FILENO, "%d: %d\n", NAME, strerror(errno));
+		return (close(pipes[0]), close(pipes[1]), close(save_stdout), 0);
+	}
+	exec->buffer_fd = pipes[0];
+	if (exec->flags & Exec_Pipe)
+		res = run_pipe(exec);
+	else
+		res = run_single(exec);
+	if (dup2(save_stdout, STDOUT_FILENO) == -1)
+		exit(ERROR_CODE);
+	return (close(pipes[0]), close(pipes[1]), close(save_stdout), res);
 }
 
 int	exec_run(t_exec *exec)
@@ -88,7 +116,9 @@ int	exec_run(t_exec *exec)
 		return (ERROR_CODE);
 	if (exec->cmds->size <= 0)
 		return (ERROR_CODE);
-	if (exec->flags & Exec_Pipe)
+	if (exec->flags & Exec_Buffer)
+		res = exec_buf(exec);
+	else if (exec->flags & Exec_Pipe)
 		res = run_pipe(exec);
 	else
 		res = run_single(exec);

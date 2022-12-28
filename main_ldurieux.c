@@ -19,16 +19,15 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_exec		exec;
-	char		**args;
 	int			ret_code;
 
 	(void)argc;
 	(void)argv;
-	args = calloc(sizeof(char *), 2);
-	args[0] = ft_strdup("Makefile");
 	exec_init(&exec, envp);
-	exec_add_cmd(&exec, ft_strdup("/usr/bin/cay"), args);
+	exec_add_cmd(&exec, ft_strdup("ls"), NULL);
+	exec.flags |= Exec_Buffer;
 	ret_code = exec_run(&exec);
+	ft_printf("buf out: %s\n", exec.buffer_out);
 	exec_destroy(&exec);
 	return (ret_code);
 }

@@ -43,6 +43,7 @@ int	exec_init(t_exec *exec, char **envp)
 	exec->envp = envp;
 	exec->paths = get_path(envp);
 	exec->buffer_out = NULL;
+	exec->buffer_fd = -1;
 	return (1);
 }
 
@@ -53,5 +54,6 @@ int	exec_update(t_exec *exec, char **envp)
 	exec->envp = envp;
 	exec->paths = get_path(envp);
 	exec->buffer_out = NULL;
+	exec->buffer_fd = -1;
 	return (1);
 }
