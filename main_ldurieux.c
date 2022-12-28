@@ -12,21 +12,22 @@
 
 #ifdef LDURIEUX
 
-#include "exec.h"
-#include "ft_printf.h"
-#include <fcntl.h>
+# include "exec.h"
+# include "ft_printf.h"
+# include <fcntl.h>
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_exec		exec;
-	t_exec_cmd	*cmd;
+	char		**args;
 	int			ret_code;
 
 	(void)argc;
 	(void)argv;
+	args = calloc(sizeof(char *), 2);
+	args[0] = ft_strdup("Makefile");
 	exec_init(&exec, envp);
-	cmd = exec_add_cmd(&exec, ft_strdup("pwd"), NULL);
-	cmd->here_doc = ft_strdup("FIN");
+	exec_add_cmd(&exec, ft_strdup("/usr/bin/cay"), args);
 	ret_code = exec_run(&exec);
 	exec_destroy(&exec);
 	return (ret_code);

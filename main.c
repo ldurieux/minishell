@@ -15,7 +15,7 @@
 #include <stdio.h>
 
 #ifndef LDURIEUX
-#ifndef LCRIMET
+# ifndef LCRIMET
 
 int	main(void)
 {
@@ -31,5 +31,5 @@ int	main(void)
 	return (0);
 }
 
-#endif
+# endif
 #endif

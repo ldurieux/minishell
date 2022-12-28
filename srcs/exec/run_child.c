@@ -53,12 +53,12 @@ static char	*find_path(t_exec_cmd *cmd, char *paths)
 		to_join[0] = splitted_paths[idx];
 		joined_path = ft_strjoin_r(to_join, "/");
 		if (!joined_path)
-		{
 			ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, ALLOC);
+		if (!joined_path)
 			exit(ERROR_CODE);
-		}
 		if (access(joined_path, F_OK) != -1)
 			break ;
+		free(joined_path);
 	}
 	return (find_path_check_error(cmd, splitted_paths, joined_path, idx));
 }
@@ -96,7 +96,10 @@ void	run_child(t_exec_cmd *cmd, char *paths, char **envp)
 
 	if (!redir_fork(cmd))
 		exit(run_child_error(cmd, strerror(errno), ERROR_CODE));
-	path = find_path(cmd, paths);
+	if (ft_strchr(cmd->name, '/') != NULL)
+		path = cmd->name;
+	else
+		path = find_path(cmd, paths);
 	if (!path)
 		exit(run_child_error(cmd, ALLOC, ERROR_CODE));
 	args = make_argv(cmd->name, cmd->args, NULL);
