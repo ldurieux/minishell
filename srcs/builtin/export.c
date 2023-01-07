@@ -12,11 +12,33 @@
 
 #include "builtin.h"
 
-int	main_export(int argc, char **argv, char **envp)
+static void	export(t_ftmap *vars, char *name)
 {
-	(void)argc;
-	(void)argv;
+	t_vars	*var;
+
+	var = ft_map_find(vars, name);
+	if (var)
+		var->env = ENV;
+	else
+	{
+		var = malloc(sizeof(t_vars));
+		if (!var)
+			return ;
+		var->name = name;
+		var->env = ENV;
+		var->value = NULL;
+		if (!ft_map_insert(vars, name, var))
+			free(var);
+	}
+}
+
+int	main_export(int argc, char **argv, char **envp, t_ftmap *vars)
+{
+	int	idx;
+
 	(void)envp;
-	(void)WIP;
-	return (1);
+	idx = 0;
+	while (++idx < argc)
+		export(vars, argv[idx]);
+	return (0);
 }

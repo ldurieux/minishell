@@ -32,7 +32,7 @@ static char	*get_path(char **envp)
 	return (path);
 }
 
-int	exec_init(t_exec *exec, char **envp)
+int	exec_init(t_exec *exec, char **envp, t_ftmap *vars)
 {
 	if (!exec)
 		return (0);
@@ -41,6 +41,7 @@ int	exec_init(t_exec *exec, char **envp)
 		return (0);
 	exec->flags = Exec_None;
 	exec->envp = envp;
+	exec->vars = vars;
 	exec->paths = get_path(envp);
 	exec->buffer_out = NULL;
 	exec->buffer_fd = -1;

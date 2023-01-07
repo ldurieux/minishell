@@ -12,11 +12,23 @@
 
 #include "builtin.h"
 
-int	main_unset(int argc, char **argv, char **envp)
+static void	unset(t_ftmap *vars, char *name)
 {
-	(void)argc;
-	(void)argv;
+	t_vars	*var;
+
+	var = ft_map_remove(vars, name);
+	if (!var)
+		return ;
+	free(var->name);
+}
+
+int	main_unset(int argc, char **argv, char **envp, t_ftmap *vars)
+{
+	int	idx;
+
 	(void)envp;
-	(void)WIP;
-	return (1);
+	idx = 0;
+	while (++idx < argc)
+		unset(vars, argv[idx]);
+	return (0);
 }

@@ -12,12 +12,13 @@
 
 #include "builtin.h"
 
-int	main_echo(int argc, char **argv, char **envp)
+int	main_echo(int argc, char **argv, char **envp, t_ftmap *vars)
 {
 	int	no_newline;
 	int	idx;
 
 	(void)envp;
+	(void)vars;
 	no_newline = 0;
 	if (argc > 1 && ft_strcmp("-n", argv[1]) == 0)
 		no_newline = 1;

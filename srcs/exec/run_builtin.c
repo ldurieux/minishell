@@ -54,7 +54,7 @@ int	run_builltin(t_builtin builtin, t_exec_cmd *cmd, char **envp)
 		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", NAME, cmd->name, ALLOC);
 		return (127);
 	}
-	res = builtin(argc, argv, envp);
+	res = builtin(argc, argv, envp, cmd->vars);
 	free(argv);
 	return (res);
 }

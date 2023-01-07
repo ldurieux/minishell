@@ -37,6 +37,5 @@ char	**ft_vars_to_envp(t_ftmap *vars);
 void	ft_free_map(t_ftmap *vars);
 void	ft_print_shell_map(t_ftmap *vars);
 void	ft_print_env_map(t_ftmap *vars);
-t_ftmap	*ft_add_var(char *envp, uint8_t env, t_ftmap *vars);
 
 #endif

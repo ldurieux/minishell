@@ -13,6 +13,7 @@
 #ifdef LDURIEUX
 
 # include "exec.h"
+# include "vars.h"
 # include "ft_printf.h"
 # include <fcntl.h>
 
@@ -20,14 +21,17 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_exec		exec;
 	int			ret_code;
+	t_ftmap		*vars;
+	char		**args;
 
 	(void)argc;
 	(void)argv;
-	exec_init(&exec, envp);
-	exec_add_cmd(&exec, ft_strdup("ls"), NULL);
-	exec.flags |= Exec_Buffer;
+	args = ft_calloc(sizeof(char *), 2);
+	args[0] = ft_strdup("test");
+	vars = get_vars(envp);
+	exec_init(&exec, envp, vars);
+	exec_add_cmd(&exec, ft_strdup("pwd"), args);
 	ret_code = exec_run(&exec);
-	ft_printf("buf out: %s\n", exec.buffer_out);
 	exec_destroy(&exec);
 	return (ret_code);
 }

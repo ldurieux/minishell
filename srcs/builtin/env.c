@@ -12,16 +12,13 @@
 
 #include "builtin.h"
 
-int	main_env(int argc, char **argv, char **envp)
+int	main_env(int argc, char **argv, char **envp, t_ftmap *vars)
 {
-	size_t	idx;
-
 	(void)argc;
 	(void)argv;
-	if (!envp)
+	(void)envp;
+	if (!vars)
 		return (0);
-	idx = (size_t)-1;
-	while (envp[++idx])
-		ft_putendl_fd(envp[idx], STDOUT_FILENO);
+	ft_print_env_map(vars);
 	return (0);
 }

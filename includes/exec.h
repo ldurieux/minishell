@@ -14,6 +14,7 @@
 # define EXEC_H
 
 # include "ft_frwlist.h"
+# include "ft_map.h"
 # include "common.h"
 
 typedef enum e_exec_flags
@@ -31,6 +32,7 @@ typedef struct s_exec_cmd
 	int		redir_out;
 	int		redir_err;
 	char	*here_doc;
+	t_ftmap	*vars;
 }	t_exec_cmd;
 
 typedef struct s_exec
@@ -38,6 +40,7 @@ typedef struct s_exec
 	t_ftfrwlist		*cmds;
 	t_exec_flags	flags;
 	char			**envp;
+	t_ftmap			*vars;
 	char			*paths;
 	char			*buffer_out;
 	int				buffer_fd;
@@ -50,7 +53,7 @@ typedef struct s_exec
  * @param array of environment variables
  * @return 0 if failed, 1 otherwise
  */
-int			exec_init(t_exec *exec, char **envp);
+int			exec_init(t_exec *exec, char **envp, t_ftmap *vars);
 
 /**
  * @brief free everything in exec but not exec itself

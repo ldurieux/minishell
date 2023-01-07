@@ -34,10 +34,11 @@ static int	cd_error(char *error)
 	return (1);
 }
 
-int	main_cd(int argc, char **argv, char **envp)
+int	main_cd(int argc, char **argv, char **envp, t_ftmap *vars)
 {
 	char	*path;
 
+	(void)vars;
 	path = NULL;
 	if (argc > 2)
 		return (cd_error("too many arguments"));
@@ -52,8 +53,7 @@ int	main_cd(int argc, char **argv, char **envp)
 		path = argv[1];
 	if (chdir(path) == -1)
 	{
-		ft_dprintf(STDERR_FILENO, "%s: %s: %s: %s\n", NAME, "cd", path,
-			strerror(errno));
+		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", "cd", strerror(errno), path);
 		return (1);
 	}
 	return (0);

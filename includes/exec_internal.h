@@ -20,6 +20,7 @@
 # include "ft_frwlist.h"
 # include "ft_printf.h"
 # include "libft.h"
+# include "vars.h"
 # include "builtin.h"
 
 # define PIPE_IN 1

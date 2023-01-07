@@ -14,13 +14,14 @@
 
 #define BUF_SIZE 2048
 
-int	main_pwd(int argc, char **argv, char **envp)
+int	main_pwd(int argc, char **argv, char **envp, t_ftmap *vars)
 {
 	char	buf[BUF_SIZE];
 
 	(void)argc;
 	(void)argv;
 	(void)envp;
+	(void)vars;
 	ft_printf("%s\n", getcwd(buf, BUF_SIZE - 1));
 	return (0);
 }
