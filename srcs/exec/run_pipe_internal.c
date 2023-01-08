@@ -17,7 +17,7 @@ pid_t	run_pipe_internal(t_exec_cmd *cmd, int *pipes, int cur_pipes, int pos)
 {
 	pid_t	pid;
 
-	if (pos & 1)
+	if (!(pos & 2))
 	{
 		pipe(pipes + (size_t)(cur_pipes * 2));
 		if (cmd->redir_out == -1)
@@ -25,7 +25,7 @@ pid_t	run_pipe_internal(t_exec_cmd *cmd, int *pipes, int cur_pipes, int pos)
 		else
 			close((pipes + (size_t)(cur_pipes * 2))[PIPE_IN]);
 	}
-	if (pos & 2)
+	if (!(pos & 1))
 	{
 		if (cmd->redir_in == -1 && !cmd->here_doc)
 			cmd->redir_in = (pipes + (size_t)(!cur_pipes * 2))[PIPE_OUT];
