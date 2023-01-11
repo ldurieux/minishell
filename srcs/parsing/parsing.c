@@ -6,7 +6,7 @@
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 13:57:05 by lcrimet           #+#    #+#             */
-/*   Updated: 2023/01/11 16:38:22 by lcrimet          ###   ########lyon.fr   */
+/*   Updated: 2023/01/11 16:45:57 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_check_redirect(char *str)
 	redirect = 0;
 	while (str[i])
 	{
+		if (redirect && (str[i] == '&' || str[i] == '|'))
+			return (1);
 		if (!ft_is_whitespace(str[i]) && !is_redirect(str[i]))
 			redirect = 0;
 		if (is_redirect(str[i]))
