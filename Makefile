@@ -47,7 +47,6 @@ HEADERS		= \
 CCDEFS		= \
 			  VERSION=\"$(VERSION)\" \
 			  NAME=\"$(NAME)\" \
-			  LCRIMET \
 
 LIB_NAMES	= \
 			  libft
