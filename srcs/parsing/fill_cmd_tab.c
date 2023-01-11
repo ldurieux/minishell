@@ -93,21 +93,11 @@ void	set_type(t_node *node)
 	}
 }
 
-t_node	*fill_node_tab(char **cmd_list, t_node *node_tab, int *i)
+void	fill_node_tab(char **cmd_list, t_node *node_tab)
 {
-	while (cmd_list[*i])
-	{
-		node_tab[*i].str = malloc(sizeof(char *));
-		if (!node_tab[*i].str)
-			return (free_node_tab(node_tab, *i),
-				free_cmd_tab(cmd_list, -1), NULL);
-		(*i)++;
-	}
-	*i = 0;
-	while (cmd_list[*i])
-	{
-		node_tab[*i].str = cmd_list[*i];
-		(*i)++;
-	}
-	return (node_tab);
+	size_t	i;
+
+	i = (size_t)-1;
+	while (cmd_list[++i])
+		node_tab[i].str = cmd_list[i];
 }

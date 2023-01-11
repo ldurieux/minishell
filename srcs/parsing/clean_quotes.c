@@ -90,12 +90,10 @@ static char	*rm_quotes(char *str, char *new_str)
 
 char	*remove_quotes(char *str)
 {
-	int		i;
 	int		rm_count;
 	int		size;
 	char	*new_str;
 
-	i = 0;
 	rm_count = get_rm_count(str);
 	size = ft_strlen(str) - rm_count;
 	new_str = malloc(sizeof(char) * (size + 1));

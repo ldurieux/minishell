@@ -17,6 +17,7 @@
 # include <stdint.h>
 # include "libft.h"
 # include "ft_printf.h"
+# include "exec.h"
 # include "vars.h"
 
 typedef struct s_node	t_node;
@@ -43,26 +44,29 @@ typedef struct s_cmd_info
 	int	cmd_number;
 }	t_cmd_info;
 
+t_node	*parse_shell(char *line);
+char	*replace_vars(char *str, t_ftmap *vars);
+char	*remove_quotes(char *str);
+void	free_node_tab(t_node *node, int nb_cmd);
+int		add_exec(t_exec *exec, char **line, t_ftmap *vars);
+
 void	print_node_tab(t_node *node);
 void	free_cmd_tab(char **tab_cmd, int nb_cmd);
-void	free_node_tab(t_node *node, int nb_cmd);
 int		ft_check_line(char *line);
 int		ft_check_esp(char *line);
 int		is_separator(char *line, int i);
 void	get_separator(int *separator, char *line, int *i, int *nb_cmd);
 int		find_next_cmd(char *line, int offset, char *sp_char, int sep);
 void	set_type(t_node *node);
-t_node	*fill_node_tab(char **cmd_list, t_node *node_tab, int *i);
+void	fill_node_tab(char **cmd_list, t_node *node_tab);
 int		ft_check_sep(char *line);
 int		get_nb_cmd(char	*line);
 char	**cpy_cmd(char **cmd_tab, char *line, t_cmd_info cmd);
 char	**ft_split_cmd_line(char *line, int nb_cmd);
 char	*get_var_name(char *str);
-int		get_replaced_size(char *str, char *var_name, t_vars	*replacement_vars);
+size_t	get_replaced_size(char *str, char *var_name, t_vars	*replacement_vars);
 char	*create_new_str(char *str, int size, t_vars *replacement_vars,
 			int start);
-char	*replace_vars(char *str, t_ftmap *vars);
-char	*remove_quotes(char *str);
-t_node	*parse_shell(char *line);
+int		tokenize(t_ftfrwlist **list, char *line);
 
 #endif

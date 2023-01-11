@@ -10,19 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef n
-
-a > a
-#endif
-
 #ifndef COMMON_H
 # define COMMON_H
-
-# ifndef NAME
-#  define NAME "minishell"
-# endif
-
-# define WIP ft_dprintf(STDERR_FILENO, "WIP %s %s:%d\n", __FUNCTION__, \
-	__FILE__, __LINE__)
 
 #endif

@@ -16,15 +16,14 @@ void	free_node_tab(t_node *node, int nb_cmd)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (nb_cmd >= 0)
-	{
-		while (i < nb_cmd)
-		{
+		while (++i < nb_cmd)
 			free(node[i].str);
-			i++;
-		}
-	}
+	else
+		while (node[++i].str)
+			free(node[i].str);
+	free(node);
 }
 
 void	free_cmd_tab(char **tab_cmd, int nb_cmd)

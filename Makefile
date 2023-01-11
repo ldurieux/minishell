@@ -4,8 +4,6 @@ VERSION		= 0.0.1
 
 SRCS		= \
 			  main.c \
-			  main_ldurieux.c \
-			  main_lcrimet.c \
 			  srcs/exec/init.c \
 			  srcs/exec/destroy.c \
 			  srcs/exec/run_child.c \
@@ -40,6 +38,8 @@ SRCS		= \
 			  srcs/parsing/replace_vars_utils.c \
 			  srcs/parsing/replace_vars.c \
 			  srcs/parsing/clean_quotes.c \
+			  srcs/parsing/add_exec.c \
+			  srcs/parsing/tokenize.c \
 
 HEADERS		= \
 			  includes \

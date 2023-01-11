@@ -16,13 +16,12 @@ static void	*create_var(void *ptr)
 {
 	t_vars	*vars;
 	char	*str;
-	char	**tab;
+	char	*tab[3];
 
 	vars = (t_vars *)ptr;
-	tab = malloc(sizeof(char *) * 3);
-	tab[2] = NULL;
 	tab[0] = vars->name;
 	tab[1] = vars->value;
+	tab[2] = NULL;
 	str = ft_strjoin_r(tab, "=");
 	return (str);
 }

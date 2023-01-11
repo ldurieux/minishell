@@ -35,12 +35,21 @@ static void	free_exec_cmd(void *ptr)
 
 void	exec_destroy(t_exec *exec)
 {
+	size_t	idx;
+
 	if (!exec)
 		return ;
 	if (exec->cmds)
 	{
 		ft_frwlist_iter(exec->cmds, free_exec_cmd);
 		ft_frwlist_delete(exec->cmds);
+	}
+	if (exec->envp)
+	{
+		idx = (size_t) - 1;
+		while (exec->envp[++idx])
+			free(exec->envp[idx]);
+		free(exec->envp);
 	}
 	free(exec->paths);
 	free(exec->buffer_out);
@@ -49,11 +58,20 @@ void	exec_destroy(t_exec *exec)
 
 void	clean(t_exec *exec)
 {
+	size_t	idx;
+
 	if (exec->cmds)
 	{
 		ft_frwlist_iter(exec->cmds, free_exec_cmd);
 		ft_frwlist_delete(exec->cmds);
 		exec->cmds = ft_frwlist_new();
+	}
+	if (exec->envp)
+	{
+		idx = (size_t) - 1;
+		while (exec->envp[++idx])
+			free(exec->envp[idx]);
+		free(exec->envp);
 	}
 	free(exec->paths);
 	exec->paths = NULL;

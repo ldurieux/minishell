@@ -14,33 +14,19 @@
 
 char	*get_var_name(char *str)
 {
-	char	*var_name;
-	int		i;
-	int		size;
+	size_t	i;
 
+	if (str[0] == '?')
+		return (ft_strdup("?"));
 	i = 0;
-	size = 0;
-	while (str[i] && ft_isalnum(str[i]))
-	{
+	while (ft_isalnum(str[i]))
 		i++;
-		size++;
-	}
-	var_name = malloc(sizeof(char) * (size + 1));
-	if (!var_name)
-		return (NULL);
-	i = 0;
-	while (str[i] && ft_isalnum(str[i]))
-	{
-		var_name[i] = str[i];
-		i++;
-	}
-	var_name[i] = 0;
-	return (var_name);
+	return (ft_strndup(str, i));
 }
 
-int	get_replaced_size(char *str, char *var_name, t_vars	*replacement_vars)
+size_t	get_replaced_size(char *str, char *var_name, t_vars	*replacement_vars)
 {
-	int		size;
+	size_t	size;
 
 	size = ft_strlen(str);
 	size -= ft_strlen(var_name);
@@ -50,45 +36,25 @@ int	get_replaced_size(char *str, char *var_name, t_vars	*replacement_vars)
 	return (size);
 }
 
-static void	add_replaced_var(t_vars *replacement_vars, int *i, char *new_str)
-{
-	int	j;
-
-	j = 0;
-	if (!replacement_vars)
-		return ;
-	while (replacement_vars->value[j])
-	{
-		new_str[*i] = replacement_vars->value[j];
-		(*i)++;
-		j++;
-	}
-}
-
 char	*create_new_str(char *str, int size, t_vars *replacement_vars,
 						int start)
 {
 	char	*new_str;
-	int		i;
-	int		skip;
+	size_t	skip;
 
-	i = -1;
-	new_str = malloc(sizeof(char) * (size + 1));
+	new_str = ft_calloc(sizeof(char), (size + 1));
 	if (!new_str)
 		return (NULL);
-	while (++i < start)
-		new_str[i] = str[i];
-	skip = i + 1;
-	add_replaced_var(replacement_vars, &i, new_str);
-	while (ft_isalnum(str[skip]))
+	ft_strncpy(new_str, str, start);
+	if (replacement_vars)
+		ft_strcat(new_str, replacement_vars->value);
+	skip = start + 1;
+	if (str[skip] == '?')
 		skip++;
-	while (str[skip])
-	{
-		new_str[i] = str[skip];
-		i++;
-		skip++;
-	}
-	new_str[i] = 0;
+	else
+		while (ft_isalnum(str[skip]))
+			skip++;
+	ft_strcat(new_str, str + skip);
 	free(str);
 	return (new_str);
 }
