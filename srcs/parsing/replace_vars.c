@@ -6,7 +6,7 @@
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:02:54 by lcrimet           #+#    #+#             */
-/*   Updated: 2023/01/11 13:04:58 by lcrimet          ###   ########lyon.fr   */
+/*   Updated: 2023/01/11 15:56:37 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*replace_vars(char *str, t_ftmap *vars)
 			replacement_vars = ft_map_find(vars, var_name);
 			size = get_replaced_size(str, var_name, replacement_vars);
 			str = create_new_str(str, size, replacement_vars, i);
+			if (!str)
+				return (NULL);
 			i = 0;
 		}
 	}

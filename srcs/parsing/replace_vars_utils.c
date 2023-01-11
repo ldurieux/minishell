@@ -6,7 +6,7 @@
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:05:13 by lcrimet           #+#    #+#             */
-/*   Updated: 2023/01/11 13:07:32 by lcrimet          ###   ########lyon.fr   */
+/*   Updated: 2023/01/11 16:08:00 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,13 @@ static void	add_replaced_var(t_vars *replacement_vars, int *i, char *new_str)
 	int	j;
 
 	j = 0;
-	if (replacement_vars)
+	if (!replacement_vars)
+		return ;
+	while (replacement_vars->value[j])
 	{
-		while (replacement_vars->value[j])
-		{
-			new_str[*i] = replacement_vars->value[j];
-			(*i)++;
-			j++;
-		}
+		new_str[*i] = replacement_vars->value[j];
+		(*i)++;
+		j++;
 	}
 }
 

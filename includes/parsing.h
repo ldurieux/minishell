@@ -6,7 +6,7 @@
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 13:26:17 by lcrimet           #+#    #+#             */
-/*   Updated: 2023/01/11 15:31:25 by lcrimet          ###   ########lyon.fr   */
+/*   Updated: 2023/01/11 16:12:24 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdint.h>
 # include "libft.h"
+# include "ft_printf.h"
 # include "vars.h"
 
 typedef struct s_node	t_node;
