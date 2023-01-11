@@ -6,7 +6,7 @@
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 13:32:31 by lcrimet           #+#    #+#             */
-/*   Updated: 2023/01/10 13:32:55 by lcrimet          ###   ########lyon.fr   */
+/*   Updated: 2023/01/11 16:54:29 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	ft_check_esp(char *line)
 	if (line[i] == '&' && line[i + 1] != '&')
 		return (1);
 	i++;
+	if (!line[i])
+		return (0);
 	while (line[i + 1])
 	{
 		if (line[i] == '&' && line[i + 1] == '&')
