@@ -30,7 +30,16 @@ SRCS		= \
 			  srcs/vars/vars_print.c \
 			  srcs/vars/vars_convert.c \
 			  srcs/vars/add_vars.c \
-
+			  srcs/parsing/check_cmd_line.c \
+			  srcs/parsing/check_sp_char.c \
+			  srcs/parsing/fill_cmd_tab.c \
+			  srcs/parsing/get_cmd.c \
+			  srcs/parsing/get_separator.c \
+			  srcs/parsing/parsing_utils.c \
+			  srcs/parsing/parsing.c \
+			  srcs/parsing/replace_vars_utils.c \
+			  srcs/parsing/replace_vars.c \
+			  srcs/parsing/clean_quotes.c \
 
 HEADERS		= \
 			  includes \
@@ -101,12 +110,12 @@ $(BUILDDIR)/%.o : %.c Makefile $(LIB_PATHS)
 		$(CC) $(CCWFLGS) $(CCDEPSFLAGS) $(CCDBGFLGS) $(CCDEFSFLGS) -I$(HEADERS) $(LIB_HEADERS) -c $< -o $@
 
 banner :
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m    _____  .__       .__ \x1b[31m   _______.__           .__  .__   "
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m   /     \ |__| ____ |__|\x1b[31m  /   ____/  |__   ____ |  | |  |  "
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m  /  \ /  \|  |/    \|  |\x1b[31m  \____  \|  |  \_/ __ \|  | |  |  "
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m /    Y    \  |   |  \  |\x1b[31m  /       \   Y  \  ___/|  |_|  |__"
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m \____|__  /__|___|  /__|\x1b[31m /______  /___|  /\___  >____/____/"
-		@$(ECHO) "\x1b[1m\x1b[38;5;27m         \/        \/    \x1b[31m        \/     \/     \/    \x1b[0mversion \x1b[1m$(VERSION)\x1b[0m"
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m___  ___ _       _ \x1b[31m     _          _ _ "
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m|  \/  |(_)     (_)\x1b[31m    | |        | | |"
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m|      | _ _ __  _ \x1b[31m ___| |__   ___| | |"
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m| |\/| || | '_ \| |\x1b[31m/ __| '_ \ / _ \ | |"
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m| |  | || | | | | |\x1b[31m\__ \ | | |  __/ | |"
+		@$(ECHO) "\x1b[1m\x1b[38;5;27m\_|  |_/|_|_| |_|_|\x1b[31m|___/_| |_|\___|_|_|"
+		@$(ECHO) "\x1b[0m\x1b[1mldurieux & lcrimet            \x1b[0mversion \x1b[1m$(VERSION)\x1b[0m"
 
 .PHONY: all clean fclean re bonus libs banner
-
