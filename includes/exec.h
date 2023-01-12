@@ -50,6 +50,8 @@ typedef struct s_exec
 	int				buffer_fd;
 }	t_exec;
 
+pid_t	*g_pids;
+
 /**
  * @brief initialize pipeline
  *		  `envp` will NOT be freed when `destroy` is called

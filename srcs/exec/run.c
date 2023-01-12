@@ -46,7 +46,7 @@ static pid_t	*run_pipe_init(t_exec *exec, size_t *idx, int *cur_pipes)
 
 	*idx = (size_t)-1;
 	*cur_pipes = 0;
-	res = ft_calloc(sizeof(pid_t), exec->cmds->size);
+	res = ft_calloc(sizeof(pid_t), exec->cmds->size + 1);
 	if (!res)
 		ft_dprintf(STDERR_FILENO, "%d: %d\n", NAME, "allocation error");
 	return (res);
