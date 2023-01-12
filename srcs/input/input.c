@@ -6,19 +6,36 @@
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:56:37 by lcrimet           #+#    #+#             */
-/*   Updated: 2023/01/11 14:23:02 by lcrimet          ###   ########lyon.fr   */
+/*   Updated: 2023/01/12 13:55:39 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
+#include "exec.h"
 
 static void	handle_abort_line(int sign)
 {
+	int	i;
+
+	i = 0;
 	(void) sign;
-	rl_replace_line("", 0);
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
+	ft_printf("%p\n", g_pids);
+	if (!g_pids)
+	{
+		rl_replace_line("", 0);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	else
+	{
+		while (g_pids[i])
+		{
+			write(1, "\n", 1);
+			kill(g_pids[i], SIGINT);
+			i++;
+		}
+	}
 }
 
 static void	handle_quit(char *str, struct termios saved)
@@ -50,5 +67,6 @@ char	*get_input(char *ps1)
 		handle_quit(buffer, saved);
 	}
 	add_history(buffer);
+	tcsetattr(STDIN_FILENO, TCSANOW, &saved);
 	return (buffer);
 }
