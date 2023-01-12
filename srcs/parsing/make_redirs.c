@@ -34,6 +34,8 @@ static void	close_if_needed(t_exec_cmd *cmd, int fd)
 
 static int	was_opened(t_exec_cmd *cmd, char *str)
 {
+	if (ft_strncmp(str, "<<", 2) == 0)
+		return (1);
 	if (ft_strncmp(str, ">>", 2) == 0 && cmd->redir_out == -1)
 		return (0);
 	else if (ft_strncmp(str, ">", 1) == 0 && cmd->redir_out == -1)
