@@ -18,7 +18,8 @@ static void	del_list(t_ftfrwlist *list)
 	ft_frwlist_delete(list);
 }
 
-static int	extract_redirs(t_ftfrwlist *tok_list, t_ftfrwlist **redir_list)
+static int	extract_redirs(t_ftfrwlist *tok_list, t_ftfrwlist **redir_list,
+							int skip_first)
 {
 	t_ftfrwlist_node	*node;
 	size_t				idx;
@@ -27,7 +28,7 @@ static int	extract_redirs(t_ftfrwlist *tok_list, t_ftfrwlist **redir_list)
 	*redir_list = ft_frwlist_new();
 	if (!*redir_list)
 		return (del_list(tok_list), 0);
-	idx = (size_t)-1;
+	idx = (size_t)-1 + skip_first;
 	while (++idx || 1)
 	{
 		node = ft_frwlist_node_at(tok_list, idx);
@@ -63,6 +64,26 @@ static char	**make_args(t_ftfrwlist *list)
 	return (res);
 }
 
+static int	add_exec_init(char **line, t_ftmap *vars, t_ftfrwlist **toks,
+							t_ftfrwlist **redirs)
+{
+	int		skip_first;
+	size_t	idx;
+
+	*line = replace_vars(*line, vars);
+	if (!*line)
+		return (0);
+	if (!tokenize(toks, *line))
+		return (0);
+	idx = (size_t)-1;
+	while (ft_is_whitespace((*line)[++idx]))
+		;
+	skip_first = (*line)[idx] == '\'' || (*line)[idx] == '\"';
+	if (!extract_redirs(*toks, redirs, skip_first))
+		return (0);
+	return (1);
+}
+
 int	add_exec(t_exec *exec, char **line, t_ftmap *vars)
 {
 	t_ftfrwlist			*toks;
@@ -70,12 +91,7 @@ int	add_exec(t_exec *exec, char **line, t_ftmap *vars)
 	t_exec_cmd			*cmd;
 	char				**args;
 
-	*line = replace_vars(*line, vars);
-	if (!*line)
-		return (0);
-	if (!tokenize(&toks, *line))
-		return (0);
-	if (!extract_redirs(toks, &redirs))
+	if (!add_exec_init(line, vars, &toks, &redirs))
 		return (0);
 	cmd = NULL;
 	if (toks->size != 0)

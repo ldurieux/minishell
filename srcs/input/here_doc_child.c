@@ -16,7 +16,7 @@ static void	handle_abort_line(int sign)
 {
 	(void) sign;
 	write(1, "\n", 1);
-	exit(1);
+	exit(127);
 }
 
 char	*here_doc_child(char *end_str, char *ps2, int fd)

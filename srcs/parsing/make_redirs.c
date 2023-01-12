@@ -29,7 +29,7 @@ static void	close_if_needed(t_exec_cmd *cmd, int fd)
 	else if (fd == 1 && cmd->redir_out != -1)
 		close(cmd->redir_out);
 	else if (fd == 2 && cmd->redir_err != -1)
-		close(cmd->redir_out);
+		close(cmd->redir_err);
 }
 
 static int	was_opened(t_exec_cmd *cmd, char *str)

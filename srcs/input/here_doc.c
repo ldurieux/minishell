@@ -68,7 +68,7 @@ static char	*read_all(int fd)
 			return (ft_frwlist_iter(list, free), ft_frwlist_delete(list), NULL);
 	}
 	if (list->size == 0)
-		return (NULL);
+		return (ft_frwlist_delete(list), NULL);
 	buffer = list_to_str(list);
 	ft_frwlist_iter(list, free);
 	return (ft_frwlist_delete(list), buffer);
@@ -79,9 +79,10 @@ static char	*here_doc_res(pid_t pid, int fd)
 	int		ret_code;
 	char	*res;
 
+	ret_code = 0;
 	waitpid(pid, &ret_code, 0);
 	ret_code = WEXITSTATUS(ret_code);
-	if (ret_code != 0)
+	if (ret_code == 127)
 		return (close(fd), NULL);
 	res = read_all(fd);
 	close(fd);

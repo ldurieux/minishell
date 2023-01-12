@@ -13,6 +13,7 @@
 #ifndef EXEC_H
 # define EXEC_H
 
+# include <sys/types.h>
 # include "ft_frwlist.h"
 # include "ft_map.h"
 # include "ft_printf.h"
@@ -50,7 +51,7 @@ typedef struct s_exec
 	int				buffer_fd;
 }	t_exec;
 
-pid_t	*g_pids;
+extern pid_t	*g_pids;
 
 /**
  * @brief initialize pipeline
