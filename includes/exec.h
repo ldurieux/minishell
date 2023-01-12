@@ -16,7 +16,6 @@
 # include "ft_frwlist.h"
 # include "ft_map.h"
 # include "ft_printf.h"
-# include "common.h"
 
 # ifndef NAME
 #  define NAME "minishell"

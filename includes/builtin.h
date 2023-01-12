@@ -15,7 +15,6 @@
 
 # include <string.h>
 # include <errno.h>
-# include "common.h"
 # include "libft.h"
 # include "ft_printf.h"
 # include "vars.h"

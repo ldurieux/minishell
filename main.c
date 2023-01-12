@@ -11,62 +11,10 @@
 /* ************************************************************************** */
 
 #include "vars.h"
-#include "exec.h"
 #include "input.h"
 #include "parsing.h"
 
-static int	init_exec(t_exec *exec, t_ftmap *vars, int first)
-{
-	char	**envp;
-
-	if (!first)
-		exec_destroy(exec);
-	envp = ft_vars_to_envp(vars);
-	if (!envp)
-		return (0);
-	return (exec_init(exec, envp, vars));
-}
-
-static int	update_ret_code(int ret_code, t_ftmap *vars)
-{
-	t_vars	*var;
-
-	var = ft_map_find(vars, "?");
-	free(var->value);
-	var->value = ft_itoa(ret_code);
-	return (var->value != NULL);
-}
-
-static int	run_nodes(t_node *nodes, t_ftmap *vars)
-{
-	t_exec	exec;
-	size_t	idx;
-	int		ret_code;
-
-	idx = (size_t)-1;
-	if (!init_exec(&exec, vars, 1))
-		return (0);
-	while (nodes[++idx].str != NULL)
-	{
-		if (nodes[idx].type != T_cmd && nodes[idx].type != T_pipe)
-		{
-			ret_code = exec_run(&exec);
-			if ((ret_code && nodes[idx].type == T_and)
-				|| (!ret_code && nodes[idx].type == T_or))
-				break ;
-			if (!init_exec(&exec, vars, 0))
-				return (0);
-		}
-		else if (nodes[idx].type != T_pipe)
-			add_exec(&exec, &(nodes + idx)->str, vars);
-	}
-	if (nodes[idx].str == NULL)
-		ret_code = exec_run(&exec);
-	exec_destroy(&exec);
-	return (update_ret_code(ret_code, vars));
-}
-
-static int	init_vars(t_ftmap *vars)
+static int	init_ret_code(t_ftmap *vars)
 {
 	t_vars	*var;
 
@@ -86,6 +34,44 @@ static int	init_vars(t_ftmap *vars)
 		return (free(var->name), free(var->value), free(var), 0);
 	if (!ft_map_insert(vars, var->name, var))
 		return (free(var->name), free(var->value), free(var), 0);
+	return (1);
+}
+
+static int	init_shell_lvl(t_ftmap *vars)
+{
+	t_vars	*var;
+	int		shlvl;
+
+	var = ft_map_find(vars, "SHLVL");
+	if (!var)
+	{
+		var = malloc(sizeof(t_vars));
+		if (!var)
+			return (0);
+		var->name = ft_strdup("SHLVL");
+		var->value = ft_strdup("1");
+		var->env = ENV;
+		if (!var->name || !var->value)
+			return (free(var->name), free(var->value), free(var), 0);
+		if (!ft_map_insert(vars, var->name, var))
+			return (free(var->name), free(var->value), free(var), 0);
+		return (1);
+	}
+	shlvl = ft_atoi(var->value);
+	if (shlvl < 0)
+		shlvl = -1;
+	if (shlvl >= 999)
+		shlvl = 0;
+	var->value = ft_itoa(shlvl + 1);
+	return (var->value != NULL);
+}
+
+static int	init_vars(t_ftmap *vars)
+{
+	if (!init_ret_code(vars))
+		return (0);
+	if (!init_shell_lvl(vars))
+		return (0);
 	return (1);
 }
 

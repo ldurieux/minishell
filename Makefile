@@ -40,6 +40,7 @@ SRCS		= \
 			  srcs/parsing/clean_quotes.c \
 			  srcs/parsing/add_exec.c \
 			  srcs/parsing/tokenize.c \
+			  srcs/parsing/run_nodes.c \
 
 HEADERS		= \
 			  includes \

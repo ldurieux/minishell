@@ -48,6 +48,7 @@ t_node	*parse_shell(char *line);
 char	*replace_vars(char *str, t_ftmap *vars);
 char	*remove_quotes(char *str);
 void	free_node_tab(t_node *node, int nb_cmd);
+int		run_nodes(t_node *nodes, t_ftmap *vars);
 int		add_exec(t_exec *exec, char **line, t_ftmap *vars);
 
 void	print_node_tab(t_node *node);
