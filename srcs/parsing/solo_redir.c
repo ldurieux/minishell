@@ -13,6 +13,19 @@
 #include "parsing.h"
 #include "input.h"
 
+int	eat_here_doc(char *str)
+{
+	char	*old_str;
+
+	old_str = str;
+	str = here_doc(str, "> ");
+	free(old_str);
+	if (!str)
+		return (0);
+	free(str);
+	return (1);
+}
+
 static char	*get_path(char *str)
 {
 	while (*str == '>' || *str == '<')
@@ -24,14 +37,18 @@ static char	*get_path(char *str)
 
 static int	add_redir(char *str, char *path)
 {
-	int	fd;
+	int		fd;
+	char	*res;
 
 	fd = -1;
 	if (ft_strncmp(str, ">>", 2) == 0)
 		fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (ft_strncmp(str, "<<", 2) == 0)
 	{
-		free(here_doc(path, "> "));
+		res = here_doc(path, "> ");
+		if (!res)
+			return (0);
+		free(res);
 		return (1);
 	}
 	else if (ft_strncmp(str, ">", 1) == 0)
@@ -54,7 +71,8 @@ int	solo_redir(t_ftfrwlist *list)
 		path = get_path(node->value);
 		if (!add_redir(node->value, path))
 		{
-			ft_dprintf(2, "%s: %s: %s\n", NAME, path, strerror(errno));
+			if (errno != 0)
+				ft_dprintf(2, "%s: %s: %s\n", NAME, path, strerror(errno));
 			return (0);
 		}
 		node = node->next;

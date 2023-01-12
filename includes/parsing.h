@@ -74,5 +74,6 @@ int		tokenize(t_ftfrwlist **list, char *line);
 int		add_exec(t_exec *exec, char **line, t_ftmap *vars);
 int		make_redirs(t_ftfrwlist *list, t_exec_cmd *cmd);
 int		solo_redir(t_ftfrwlist *list);
+int		eat_here_doc(char *str);
 
 #endif

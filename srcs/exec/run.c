@@ -113,9 +113,9 @@ int	exec_run(t_exec *exec)
 	int	res;
 
 	if (!exec || !exec->cmds)
-		return (ERROR_CODE);
+		return (1);
 	if (exec->cmds->size <= 0)
-		return (ERROR_CODE);
+		return (1);
 	if (exec->flags & Exec_Buffer)
 		res = exec_buf(exec);
 	else if (exec->flags & Exec_Pipe)

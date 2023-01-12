@@ -54,9 +54,10 @@ static int	add_redir(t_exec_cmd *cmd, char *str, char *path)
 	}
 	else if (ft_strncmp(str, "<<", 2) == 0)
 	{
-		if (cmd->here_doc)
-			free(here_doc(cmd->here_doc, "> "));
+		if (cmd->here_doc && !eat_here_doc(cmd->here_doc))
+			return (0);
 		cmd->here_doc = ft_strdup(path);
+		return (1);
 	}
 	else if (ft_strncmp(str, ">", 1) == 0)
 	{
@@ -68,8 +69,6 @@ static int	add_redir(t_exec_cmd *cmd, char *str, char *path)
 		close_if_needed(cmd, STDIN_FILENO);
 		cmd->redir_in = open(path, O_RDONLY);
 	}
-	else
-		return (0);
 	return (was_opened(cmd, str));
 }
 
@@ -86,10 +85,12 @@ int	make_redirs(t_ftfrwlist *list, t_exec_cmd *cmd)
 		path = get_path(node->value);
 		if (!add_redir(cmd, node->value, path))
 		{
-			ft_dprintf(2, "%s: %s: %s\n", NAME, path, strerror(errno));
+			if (errno != 0)
+				ft_dprintf(2, "%s: %s: %s\n", NAME, path, strerror(errno));
 			close(cmd->redir_in);
 			close(cmd->redir_out);
 			close(cmd->redir_err);
+			cmd->here_doc = NULL;
 			return (0);
 		}
 		node = node->next;

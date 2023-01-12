@@ -24,6 +24,7 @@ SRCS		= \
 			  srcs/builtin/export.c \
 			  srcs/input/input.c \
 			  srcs/input/here_doc.c \
+			  srcs/input/here_doc_child.c \
 			  srcs/vars/vars.c \
 			  srcs/vars/vars_print.c \
 			  srcs/vars/vars_convert.c \
