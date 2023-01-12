@@ -12,6 +12,8 @@
 
 #include "parsing.h"
 
+#define CHR "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?_"
+
 static void	find_var(char *str, int *i, int *simple_quote)
 {
 	while (str[*i] && (str[*i] != '$' || *simple_quote))
@@ -39,8 +41,7 @@ char	*replace_vars(char *str, t_ftmap *vars)
 	while (str[++i])
 	{
 		find_var(str, &i, &simple_quote);
-		if (str[i] != '$' || ((!ft_isalnum(str[i + 1]) && str[i + 1] != '_')
-				&& str[i + 1] != '?'))
+		if (str[i] != '$' || ft_strcspn(str + i + 1, CHR))
 			continue ;
 		var_name = get_var_name(&str[i + 1]);
 		if (!var_name)
