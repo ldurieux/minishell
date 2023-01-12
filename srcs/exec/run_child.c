@@ -91,17 +91,21 @@ static int	run_child_error(t_exec_cmd *cmd, char *error, int ret)
 
 void	run_child(t_exec_cmd *cmd, char *paths, char **envp)
 {
-	char	*path;
-	char	**args;
+	char		*path;
+	char		**args;
+	t_builtin	builtin;
 
 	if (!redir_fork(cmd))
 		exit(run_child_error(cmd, strerror(errno), ERROR_CODE));
-	if (ft_strchr(cmd->name, '/') != NULL)
+	builtin = get_builtin(cmd->name);
+	if (builtin)
+		exit(run_builltin(builtin, cmd, envp));
+	else if (ft_strchr(cmd->name, '/') != NULL)
 		path = cmd->name;
 	else
 		path = find_path(cmd, paths);
 	if (!path)
-		exit(run_child_error(cmd, ALLOC, ERROR_CODE));
+		exit(run_child_error(cmd, NOT_FOUND, ERROR_CODE));
 	args = make_argv(cmd->name, cmd->args, NULL);
 	if (!args)
 		exit(run_child_error(cmd, ALLOC, ERROR_CODE));
