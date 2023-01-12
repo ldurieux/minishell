@@ -42,6 +42,7 @@ SRCS		= \
 			  srcs/parsing/tokenize.c \
 			  srcs/parsing/run_nodes.c \
 			  srcs/parsing/make_redirs.c \
+			  srcs/parsing/solo_redir.c \
 
 HEADERS		= \
 			  includes \

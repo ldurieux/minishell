@@ -37,6 +37,8 @@ void	exec_rm_last_cmd(t_exec *exec)
 {
 	t_exec_cmd	*cmd;
 
+	if (exec->cmds->size == 0)
+		return ;
 	cmd = ft_frwlist_pop_back(exec->cmds);
 	cmd->name = NULL;
 	free_exec_cmd(cmd);

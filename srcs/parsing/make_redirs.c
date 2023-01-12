@@ -78,7 +78,8 @@ int	make_redirs(t_ftfrwlist *list, t_exec_cmd *cmd)
 	char				*path;
 	t_ftfrwlist_node	*node;
 
-	(void)cmd;
+	if (!cmd)
+		return (solo_redir(list));
 	node = list->first;
 	while (node)
 	{
