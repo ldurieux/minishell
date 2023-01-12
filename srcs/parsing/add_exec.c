@@ -12,7 +12,7 @@
 
 #include "parsing.h"
 
-static void	delete_list(t_ftfrwlist *list)
+static void	del_list(t_ftfrwlist *list)
 {
 	ft_frwlist_iter(list, free);
 	ft_frwlist_delete(list);
@@ -26,7 +26,7 @@ static int	extract_redirs(t_ftfrwlist *tok_list, t_ftfrwlist **redir_list)
 
 	*redir_list = ft_frwlist_new();
 	if (!*redir_list)
-		return (delete_list(tok_list), 0);
+		return (del_list(tok_list), 0);
 	idx = (size_t)-1;
 	while (++idx || 1)
 	{
@@ -37,7 +37,7 @@ static int	extract_redirs(t_ftfrwlist *tok_list, t_ftfrwlist **redir_list)
 		if (chr != '>' && chr != '<')
 			continue ;
 		if (!ft_frwlist_push_back(*redir_list, node->value))
-			return (delete_list(*redir_list), delete_list(tok_list), 0);
+			return (del_list(*redir_list), del_list(tok_list), 0);
 		ft_frwlist_remove_at(tok_list, idx--);
 	}
 	return (1);
@@ -63,41 +63,31 @@ static char	**make_args(t_ftfrwlist *list)
 	return (res);
 }
 
-static int	make_redirs(t_ftfrwlist *list, t_exec_cmd *cmd)
-{
-	char	*path;
-
-	(void)list;
-	(void)cmd;
-	(void)path;
-	return (1);
-}
-
 int	add_exec(t_exec *exec, char **line, t_ftmap *vars)
 {
-	t_ftfrwlist			*tok_list;
-	t_ftfrwlist			*redir_list;
+	t_ftfrwlist			*toks;
+	t_ftfrwlist			*redirs;
 	t_exec_cmd			*cmd;
 	char				**args;
 
 	*line = replace_vars(*line, vars);
 	if (!*line)
 		return (0);
-	if (!tokenize(&tok_list, *line))
+	if (!tokenize(&toks, *line))
 		return (0);
-	if (!extract_redirs(tok_list, &redir_list))
+	if (!extract_redirs(toks, &redirs))
 		return (0);
 	cmd = NULL;
-	if (tok_list->size != 0)
+	if (toks->size != 0)
 	{
-		args = make_args(tok_list);
+		args = make_args(toks);
 		if (!args)
-			return (delete_list(redir_list), delete_list(tok_list), 0);
-		cmd = exec_add_cmd(exec, tok_list->first->value, args);
+			return (del_list(redirs), del_list(toks), 0);
+		cmd = exec_add_cmd(exec, toks->first->value, args);
 	}
-	if (!make_redirs(redir_list, cmd))
-		return (delete_list(redir_list), delete_list(tok_list), 0);
-	ft_frwlist_delete(tok_list);
-	delete_list(redir_list);
+	if (!make_redirs(redirs, cmd))
+		return (exec_rm_last_cmd(exec), del_list(redirs), del_list(toks), 0);
+	ft_frwlist_delete(toks);
+	del_list(redirs);
 	return (1);
 }

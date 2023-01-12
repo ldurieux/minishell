@@ -15,6 +15,9 @@
 
 # include <stdio.h>
 # include <stdint.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <string.h>
 # include "libft.h"
 # include "ft_printf.h"
 # include "exec.h"
@@ -49,7 +52,6 @@ char	*replace_vars(char *str, t_ftmap *vars);
 char	*remove_quotes(char *str);
 void	free_node_tab(t_node *node, int nb_cmd);
 int		run_nodes(t_node *nodes, t_ftmap *vars);
-int		add_exec(t_exec *exec, char **line, t_ftmap *vars);
 
 void	print_node_tab(t_node *node);
 void	free_cmd_tab(char **tab_cmd, int nb_cmd);
@@ -69,5 +71,7 @@ size_t	get_replaced_size(char *str, char *var_name, t_vars	*replacement_vars);
 char	*create_new_str(char *str, int size, t_vars *replacement_vars,
 			int start);
 int		tokenize(t_ftfrwlist **list, char *line);
+int		add_exec(t_exec *exec, char **line, t_ftmap *vars);
+int		make_redirs(t_ftfrwlist *list, t_exec_cmd *cmd);
 
 #endif

@@ -88,6 +88,7 @@ int			exec_update(t_exec *exec, char **envp);
  * @return NULL if failed, otherwise pointer to the added command
  */
 t_exec_cmd	*exec_add_cmd(t_exec *exec, char *cmd_path, char **cmd_args);
+void		exec_rm_last_cmd(t_exec *exec);
 
 /**
  * @brief run every command in the pipeline

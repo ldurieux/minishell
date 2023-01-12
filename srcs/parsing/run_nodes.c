@@ -54,7 +54,7 @@ int	run_nodes(t_node *nodes, t_ftmap *vars)
 			if (!init_exec(&exec, vars, 0))
 				return (0);
 		}
-		else if (nodes[idx].type != T_pipe)
+		else if (nodes[idx].type == T_cmd)
 			add_exec(&exec, &(nodes + idx)->str, vars);
 	}
 	if (nodes[idx].str == NULL)

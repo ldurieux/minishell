@@ -57,7 +57,7 @@ void	print_node_tab(t_node *node)
 	i = 0;
 	while (node[i].str)
 	{
-		printf("%d : %s type(%d)\n", i, node[i].str, node[i].type);
+		ft_printf("%d : %s type(%d)\n", i, node[i].str, node[i].type);
 		i++;
 	}
 }

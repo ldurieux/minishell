@@ -33,6 +33,15 @@ static void	free_exec_cmd(void *ptr)
 	free(cmd);
 }
 
+void	exec_rm_last_cmd(t_exec *exec)
+{
+	t_exec_cmd	*cmd;
+
+	cmd = ft_frwlist_pop_back(exec->cmds);
+	cmd->name = NULL;
+	free_exec_cmd(cmd);
+}
+
 void	exec_destroy(t_exec *exec)
 {
 	size_t	idx;
