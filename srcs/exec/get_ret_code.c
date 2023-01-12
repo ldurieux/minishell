@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_child_ret_code.c                               :+:      :+:    :+:   */
+/*   get_ret_code.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldurieux <ldurieux@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 22:58:21 by ldurieux          #+#    #+#             */
-/*   Updated: 2022/12/12 22:58:23 by ldurieux         ###   ########lyon.fr   */
+/*   Updated: 2023/01/12 14:35:52 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	get_pipe_ret_code(t_exec *exec, pid_t *pids, size_t count)
 		waitpid(pids[idx], &ret_code, 0);
 		ret_code = WEXITSTATUS(ret_code);
 	}
-	free(pids);
 	if (exec->buffer_fd != -1)
 		exec->buffer_out = read_all(exec->buffer_fd);
 	free(g_pids);
