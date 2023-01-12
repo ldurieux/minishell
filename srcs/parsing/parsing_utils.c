@@ -16,6 +16,8 @@ void	free_node_tab(t_node *node, int nb_cmd)
 {
 	int	i;
 
+	if (!node)
+		return ;
 	i = -1;
 	if (nb_cmd >= 0)
 		while (++i < nb_cmd)

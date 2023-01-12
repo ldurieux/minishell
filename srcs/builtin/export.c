@@ -24,10 +24,10 @@ static void	export(t_ftmap *vars, char *name)
 		var = malloc(sizeof(t_vars));
 		if (!var)
 			return ;
-		var->name = name;
+		var->name = ft_strdup(name);
 		var->env = ENV;
 		var->value = NULL;
-		if (!ft_map_insert(vars, name, var))
+		if (!ft_map_insert(vars, var->name, var))
 			free(var);
 	}
 }
