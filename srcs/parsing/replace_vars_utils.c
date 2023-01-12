@@ -6,7 +6,7 @@
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:05:13 by lcrimet           #+#    #+#             */
-/*   Updated: 2023/01/11 16:08:00 by lcrimet          ###   ########lyon.fr   */
+/*   Updated: 2023/01/12 10:31:09 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_var_name(char *str)
 	if (str[0] == '?')
 		return (ft_strdup("?"));
 	i = 0;
-	while (ft_isalnum(str[i]))
+	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
 	return (ft_strndup(str, i));
 }
@@ -52,7 +52,7 @@ char	*create_new_str(char *str, int size, t_vars *replacement_vars,
 	if (str[skip] == '?')
 		skip++;
 	else
-		while (ft_isalnum(str[skip]))
+		while (ft_isalnum(str[skip]) || str[skip] == '_')
 			skip++;
 	ft_strcat(new_str, str + skip);
 	free(str);

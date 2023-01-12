@@ -6,7 +6,7 @@
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:02:54 by lcrimet           #+#    #+#             */
-/*   Updated: 2023/01/11 15:56:37 by lcrimet          ###   ########lyon.fr   */
+/*   Updated: 2023/01/12 10:32:03 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ char	*replace_vars(char *str, t_ftmap *vars)
 	while (str[++i])
 	{
 		find_var(str, &i, &simple_quote);
-		if (str[i] != '$' || (!ft_isalnum(str[i + 1]) && str[i + 1] != '?'))
+		if (str[i] != '$' || ((!ft_isalnum(str[i + 1]) && str[i + 1] != '_')
+				&& str[i + 1] != '?'))
 			continue ;
 		var_name = get_var_name(&str[i + 1]);
 		if (!var_name)

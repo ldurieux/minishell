@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldurieux <ldurieux@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:03:25 by ldurieux          #+#    #+#             */
-/*   Updated: 2022/12/12 23:03:26 by ldurieux         ###   ########lyon.fr   */
+/*   Updated: 2023/01/12 11:01:48 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ static void	unset(t_ftmap *vars, char *name)
 {
 	t_vars	*var;
 
+	if (ft_strchr(name, '?'))
+	{
+		ft_dprintf(STDERR_FILENO, "%s: unset: `%s': not a valid identifier\n",
+			NAME, name);
+		return ;
+	}
 	var = ft_map_remove(vars, name);
 	if (!var)
 		return ;
