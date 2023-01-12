@@ -78,7 +78,7 @@ static int	add_exec_init(char **line, t_ftmap *vars, t_ftfrwlist **toks,
 	idx = (size_t)-1;
 	while (ft_is_whitespace((*line)[++idx]))
 		;
-	skip_first = (*line)[idx] == '\'' || (*line)[idx] == '\"';
+	skip_first = ((*line)[idx] == '\'' || (*line)[idx] == '\"');
 	if (!extract_redirs(*toks, redirs, skip_first))
 		return (0);
 	return (1);

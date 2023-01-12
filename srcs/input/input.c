@@ -15,9 +15,6 @@
 
 static void	handle_abort_line(int sign)
 {
-	int	i;
-
-	i = 0;
 	(void) sign;
 	if (!g_pids)
 	{
@@ -27,14 +24,7 @@ static void	handle_abort_line(int sign)
 		rl_redisplay();
 	}
 	else
-	{
-		while (g_pids[i])
-		{
-			write(1, "\n", 1);
-			kill(g_pids[i], SIGINT);
-			i++;
-		}
-	}
+		write(1, "\n", 1);
 }
 
 static void	handle_quit(char *str, struct termios saved)
