@@ -6,13 +6,13 @@
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:03:19 by ldurieux          #+#    #+#             */
-/*   Updated: 2023/01/13 10:11:42 by lcrimet          ###   ########lyon.fr   */
+/*   Updated: 2023/01/13 10:13:29 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	check_name(char *name)
+static int	check_name(char *name)
 {
 	if (ft_strchr(name, '?'))
 	{
