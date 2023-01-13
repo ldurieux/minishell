@@ -48,6 +48,7 @@ static void	export(t_ftmap *vars, char *name)
 	{
 		free(var->value);
 		var->value = ft_strdup(value + 1);
+		free(name);
 	}
 	var->env = ENV;
 }

@@ -67,7 +67,7 @@ OBJS		= $(SRCS:%.c=$(BUILDDIR)/%.o)
 DEPS		= $(SRCS:%.c=$(BUILDDIR)/%.d) 
 CC			= cc
 CCWFLGS		= -Wall -Wextra -Werror
-CCDBGFLGS	= #-g -fsanitize=address
+CCDBGFLGS	= -g -fsanitize=address
 CCDEPSFLAGS	= -MMD -MP
 RM			= rm -Rf
 MAKE		= make -C

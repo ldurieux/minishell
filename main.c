@@ -62,6 +62,7 @@ static int	init_shell_lvl(t_ftmap *vars)
 		shlvl = -1;
 	if (shlvl >= 999)
 		shlvl = 0;
+	free(var->value);
 	var->value = ft_itoa(shlvl + 1);
 	return (var->value != NULL);
 }

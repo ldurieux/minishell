@@ -26,6 +26,8 @@ static void	unset(t_ftmap *vars, char *name)
 	if (!var)
 		return ;
 	free(var->name);
+	free(var->value);
+	free(var);
 }
 
 int	main_unset(int argc, char **argv, char **envp, t_ftmap *vars)

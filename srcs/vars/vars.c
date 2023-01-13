@@ -15,6 +15,7 @@
 static void	ft_free_var(void *var)
 {
 	free(((t_vars *)var)->name);
+	free(((t_vars *)var)->value);
 	free(var);
 }
 
@@ -33,13 +34,14 @@ static t_vars	*ft_fill_map_val(char *envp)
 		return (NULL);
 	map_val->name = ft_strtok_r((const char *)envp, "=",
 			(const char **)&map_val->value);
-	if (!map_val->name || !*map_val->value)
+	map_val->value = ft_strdup(map_val->value + 1);
+	if (!map_val->name || !map_val->value)
 	{
 		free(map_val->name);
+		free(map_val->value);
 		free(map_val);
 		return (NULL);
 	}
-	map_val->value++;
 	map_val->env = 1;
 	return (map_val);
 }
