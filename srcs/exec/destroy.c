@@ -29,6 +29,12 @@ static void	free_exec_cmd(void *ptr)
 			free(cmd->args[idx]);
 		free(cmd->args);
 	}
+	if (cmd->redir_in > 2)
+		close(cmd->redir_in);
+	if (cmd->redir_out > 2)
+		close(cmd->redir_out);
+	if (cmd->redir_err > 2)
+		close(cmd->redir_err);
 	free(cmd->here_doc);
 	free(cmd);
 }
