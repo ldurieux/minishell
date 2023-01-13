@@ -62,7 +62,7 @@ static int	add_redir(t_exec_cmd *cmd, char *str, char *path)
 	else if (ft_strncmp(str, ">", 1) == 0)
 	{
 		close_if_needed(cmd, STDOUT_FILENO);
-		cmd->redir_out = open(path, O_WRONLY | O_CREAT, 0644);
+		cmd->redir_out = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	else if (ft_strncmp(str, "<", 1) == 0)
 	{
