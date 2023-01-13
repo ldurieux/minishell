@@ -22,6 +22,7 @@ static int	init_ret_code(t_ftmap *vars)
 	if (var)
 	{
 		free(var->name);
+		free(var->value);
 		free(var);
 	}
 	var = malloc(sizeof(t_vars));
