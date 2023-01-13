@@ -36,7 +36,6 @@ typedef struct s_exec_cmd
 	int		redir_in;
 	int		redir_out;
 	int		redir_err;
-	char	*here_doc;
 	t_ftmap	*vars;
 }	t_exec_cmd;
 

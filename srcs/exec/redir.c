@@ -34,7 +34,7 @@ static int	redir_one_parent(int *fd, int old_fd)
  * But does bash makes sense in the first place ? */
 int	redir_parent(t_exec_cmd *cmd)
 {
-	if (!cmd->here_doc && !redir_one_parent(&cmd->redir_in, STDIN_FILENO))
+	if (!redir_one_parent(&cmd->redir_in, STDIN_FILENO))
 	{
 		ft_dprintf(STDERR_FILENO, "%s: %s\n", NAME, strerror(errno));
 		return (0);
@@ -85,7 +85,7 @@ int	restore_redir(t_exec_cmd *cmd)
 
 int	redir_fork(t_exec_cmd *cmd)
 {
-	if (!cmd->here_doc && cmd->redir_in != -1)
+	if (cmd->redir_in != -1)
 		if (dup2(cmd->redir_in, STDIN_FILENO) == -1)
 			return (0);
 	if (cmd->redir_out != -1)

@@ -48,14 +48,14 @@ int	run_nodes(t_node *nodes, t_ftmap *vars)
 		if (nodes[idx].type != T_cmd && nodes[idx].type != T_pipe)
 		{
 			ret_code = exec_run(&exec);
-			if ((ret_code && nodes[idx].type == T_and)
-				|| (!ret_code && nodes[idx].type == T_or))
+			if (((ret_code != 0) + 1) == nodes[idx].type)
 				break ;
 			if (!init_exec(&exec, vars, 0))
 				return (0);
 		}
 		else if (nodes[idx].type == T_cmd)
-			add_exec(&exec, &(nodes + idx)->str, vars);
+			if (!add_exec(&exec, &(nodes + idx)->str, vars))
+				break ;
 	}
 	if (nodes[idx].str == NULL)
 		ret_code = exec_run(&exec);

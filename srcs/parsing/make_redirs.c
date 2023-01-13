@@ -34,9 +34,9 @@ static void	close_if_needed(t_exec_cmd *cmd, int fd)
 
 static int	was_opened(t_exec_cmd *cmd, char *str)
 {
-	if (ft_strncmp(str, "<<", 2) == 0)
-		return (1);
-	if (ft_strncmp(str, ">>", 2) == 0 && cmd->redir_out == -1)
+	if (ft_strncmp(str, "<<", 2) == 0 && cmd->redir_in == -1)
+		return (0);
+	else if (ft_strncmp(str, ">>", 2) == 0 && cmd->redir_out == -1)
 		return (0);
 	else if (ft_strncmp(str, ">", 1) == 0 && cmd->redir_out == -1)
 		return (0);
@@ -54,10 +54,8 @@ static int	add_redir(t_exec_cmd *cmd, char *str, char *path)
 	}
 	else if (ft_strncmp(str, "<<", 2) == 0)
 	{
-		if (cmd->here_doc && !eat_here_doc(cmd->here_doc))
-			return (0);
-		cmd->here_doc = ft_strdup(path);
-		return (1);
+		close_if_needed(cmd, STDIN_FILENO);
+		cmd->redir_in = here_doc_fd(path, "> ");
 	}
 	else if (ft_strncmp(str, ">", 1) == 0)
 	{
@@ -90,7 +88,6 @@ int	make_redirs(t_ftfrwlist *list, t_exec_cmd *cmd)
 			close(cmd->redir_in);
 			close(cmd->redir_out);
 			close(cmd->redir_err);
-			cmd->here_doc = NULL;
 			return (0);
 		}
 		node = node->next;

@@ -27,7 +27,7 @@ pid_t	run_pipe_internal(t_exec_cmd *cmd, int *pipes, int cur_pipes, int pos)
 	}
 	if (!(pos & 1))
 	{
-		if (cmd->redir_in == -1 && !cmd->here_doc)
+		if (cmd->redir_in == -1)
 			cmd->redir_in = (pipes + (size_t)(!cur_pipes * 2))[PIPE_OUT];
 		else
 			close((pipes + (size_t)(!cur_pipes * 2))[PIPE_OUT]);
