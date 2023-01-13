@@ -79,7 +79,7 @@ static int	run_pipe(t_exec *exec)
 			return (free(f.pids), ERROR_CODE);
 		if (f.pids[f.idx] == 0)
 			run_child(f.node->value, exec->paths, exec->envp);
-		if (f.node->next && f.node != exec->cmds->first)
+		if (f.node != exec->cmds->first)
 			close((f.pipes + (size_t)(!f.cur_p * 2))[PIPE_OUT]);
 		if (f.node->next)
 			close((f.pipes + (size_t)(f.cur_p * 2))[PIPE_IN]);
