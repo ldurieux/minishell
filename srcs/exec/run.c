@@ -54,32 +54,40 @@ static pid_t	*run_pipe_init(t_exec *exec, size_t *idx, int *cur_pipes)
 	return (res);
 }
 
-static int	run_pipe(t_exec *exec)
+typedef struct s_func_vars
 {
 	int					pipes[4];
-	int					cur_pipes;
+	int					cur_p;
 	t_ftfrwlist_node	*node;
 	pid_t				*pids;
 	size_t				idx;
+}	t_func_vars;
 
-	pids = run_pipe_init(exec, &idx, &cur_pipes);
-	if (!pids)
+static int	run_pipe(t_exec *exec)
+{
+	t_func_vars	f;
+
+	f.pids = run_pipe_init(exec, &f.idx, &f.cur_p);
+	if (!f.pids)
 		return (ERROR_CODE);
-	node = exec->cmds->first;
-	while (node)
+	f.node = exec->cmds->first;
+	while (f.node)
 	{
-		pids[++idx] = run_pipe_internal(node->value, pipes, cur_pipes,
-				(node == exec->cmds->first) + ((node->next == NULL) << 1));
-		if (pids[idx] == -1)
-			return (free(pids), ERROR_CODE);
-		if (pids[idx] == 0)
-			run_child(node->value, exec->paths, exec->envp);
-		if (node->next)
-			close((pipes + (size_t)(cur_pipes * 2))[PIPE_IN]);
-		cur_pipes = !cur_pipes;
-		node = node->next;
+		f.pids[++f.idx] = run_pipe_internal(f.node->value, f.pipes, f.cur_p,
+				(f.node == exec->cmds->first) + ((f.node->next == NULL) << 1));
+		if (f.pids[f.idx] == -1)
+			return (free(f.pids), ERROR_CODE);
+		if (f.pids[f.idx] == 0)
+			run_child(f.node->value, exec->paths, exec->envp);
+		if (f.node->next && f.node != exec->cmds->first)
+			close((f.pipes + (size_t)(!f.cur_p * 2))[PIPE_OUT]);
+		if (f.node->next)
+			close((f.pipes + (size_t)(f.cur_p * 2))[PIPE_IN]);
+		f.cur_p = !f.cur_p;
+		f.node = f.node->next;
 	}
-	return (get_pipe_ret_code(exec, pids, exec->cmds->size));
+	close((f.pipes + (!f.cur_p * 2))[PIPE_OUT]);
+	return (get_pipe_ret_code(exec, f.pids, exec->cmds->size));
 }
 
 static int	exec_buf(t_exec *exec)

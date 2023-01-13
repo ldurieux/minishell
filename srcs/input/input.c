@@ -23,8 +23,10 @@ static void	handle_abort_line(int sign)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	else
+	else if (0)
+	{
 		write(1, "\n", 1);
+	}
 }
 
 static void	handle_quit(char *str, struct termios saved)
