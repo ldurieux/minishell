@@ -6,11 +6,22 @@
 /*   By: lcrimet <lcrimet@student.42lyon.fr >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:03:19 by ldurieux          #+#    #+#             */
-/*   Updated: 2023/01/12 12:27:38 by lcrimet          ###   ########lyon.fr   */
+/*   Updated: 2023/01/13 10:11:42 by lcrimet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+
+int	check_name(char *name)
+{
+	if (ft_strchr(name, '?'))
+	{
+		ft_dprintf(STDERR_FILENO, "%s: export: `%s': not a valid identifier\n",
+			NAME, name);
+		return (1);
+	}
+	return (0);
+}
 
 static void	export(t_ftmap *vars, char *name)
 {
@@ -18,7 +29,7 @@ static void	export(t_ftmap *vars, char *name)
 	const char	*value;
 
 	name = ft_strtok_r(name, "=", &value);
-	if (!name)
+	if (!name || check_name(name))
 		return ;
 	var = ft_map_find(vars, name);
 	if (!var)
