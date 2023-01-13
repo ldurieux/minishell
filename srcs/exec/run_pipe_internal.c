@@ -34,9 +34,8 @@ pid_t	run_pipe_internal(t_exec_cmd *cmd, int *pipes, int cur_pipes, int pos)
 	}
 	pid = fork();
 	if (pid == -1)
-	{
 		ft_dprintf(STDERR_FILENO, "%d: %d\n", NAME, "fork error");
-		return (-1);
-	}
+	if (pid == 0 && !(pos & 2))
+		close((pipes + (size_t)(cur_pipes * 2))[PIPE_OUT]);
 	return (pid);
 }

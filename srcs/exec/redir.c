@@ -94,5 +94,8 @@ int	redir_fork(t_exec_cmd *cmd)
 	if (cmd->redir_err != -1)
 		if (dup2(cmd->redir_err, STDERR_FILENO) == -1)
 			return (0);
+	close(cmd->redir_in);
+	close(cmd->redir_out);
+	close(cmd->redir_err);
 	return (1);
 }
