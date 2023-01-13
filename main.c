@@ -52,9 +52,7 @@ static int	init_shell_lvl(t_ftmap *vars)
 		var->name = ft_strdup("SHLVL");
 		var->value = ft_strdup("1");
 		var->env = ENV;
-		if (!var->name || !var->value)
-			return (free(var->name), free(var->value), free(var), 0);
-		if (!ft_map_insert(vars, var->name, var))
+		if (!var->name || !var->value || !ft_map_insert(vars, var->name, var))
 			return (free(var->name), free(var->value), free(var), 0);
 		return (1);
 	}

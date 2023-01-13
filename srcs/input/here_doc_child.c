@@ -38,9 +38,11 @@ char	*here_doc_child(char *end_str, char *ps2, int fd)
 		while (buffer[++i])
 			ft_vector_push_back(str, &buffer[i]);
 		ft_vector_push_back(str, "\n");
+		free(buffer);
 		buffer = readline(ps2);
 	}
 	ft_vector_push_back(str, "\0");
 	write(fd, str->data, ft_strlen(str->data));
+	free(buffer);
 	exit(0);
 }

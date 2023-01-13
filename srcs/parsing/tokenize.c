@@ -57,7 +57,6 @@ int	tokenize(t_ftfrwlist **list, char *line)
 {
 	size_t				idx;
 	t_ftfrwlist_node	*node;
-	char				*tmp;
 
 	*list = ft_frwlist_new();
 	if (!*list)
@@ -73,10 +72,7 @@ int	tokenize(t_ftfrwlist **list, char *line)
 	node = (*list)->first;
 	while (node)
 	{
-		tmp = remove_quotes(node->value);
-		if (!tmp)
-			return (delete_list(*list), 0);
-		node->value = tmp;
+		remove_quotes(node->value);
 		node = node->next;
 	}
 	return (1);

@@ -23,6 +23,13 @@ static int	check_name(char *name)
 	return (0);
 }
 
+static void	replace_var(t_vars *var, const char *value, char *name)
+{
+	free(var->value);
+	var->value = ft_strdup(value + 1);
+	free(name);
+}
+
 static void	export(t_ftmap *vars, char *name)
 {
 	t_vars		*var;
@@ -45,11 +52,7 @@ static void	export(t_ftmap *vars, char *name)
 			free(var);
 	}
 	else if (value[0])
-	{
-		free(var->value);
-		var->value = ft_strdup(value + 1);
-		free(name);
-	}
+		replace_var(var, value, name);
 	var->env = ENV;
 }
 

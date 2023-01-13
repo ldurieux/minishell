@@ -80,6 +80,7 @@ static int	read_here_doc(t_exec_cmd *cmd)
 		return (free(buffer), 0);
 	close(pipes[PIPE_OUT]);
 	close(pipes[PIPE_IN]);
+	free(buffer);
 	return (1);
 }
 
