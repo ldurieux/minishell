@@ -50,12 +50,14 @@ t_node	*parse_shell(char *line)
 	char	**cmd_list;
 	t_node	*node_tab;
 
+	if (ft_str_iswhitespace(line))
+		return (free(line), NULL);
 	if (ft_check_line(line) || ft_check_esp(line) || ft_check_sep(line)
 		|| ft_check_redirect(line))
-		return (ft_dprintf(STDERR_FILENO, "parsing error\n"), NULL);
+		return (ft_dprintf(STDERR_FILENO, "parsing error\n"), free(line), NULL);
 	node_tab = ft_calloc(sizeof(t_node), get_nb_cmd(line) + 1);
 	if (!node_tab)
-		return (NULL);
+		return (free(line), NULL);
 	cmd_list = ft_split_cmd_line(line, get_nb_cmd(line));
 	fill_node_tab(cmd_list, node_tab);
 	free(cmd_list);
