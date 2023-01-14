@@ -101,5 +101,6 @@ int	get_pipe_ret_code(t_exec *exec, pid_t *pids, size_t count)
 	}
 	if (exec->buffer_fd != -1)
 		exec->buffer_out = read_all(exec->buffer_fd);
+	free(pids);
 	return (ret_code);
 }

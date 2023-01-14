@@ -42,22 +42,22 @@ int	run_nodes(t_node *nodes, t_ftmap *vars)
 	size_t	idx;
 	int		ret_code;
 
+	g_process_killed = 0;
 	idx = (size_t)-1;
 	if (!init_exec(&exec, vars, 1))
 		return (0);
 	while (nodes[++idx].str != NULL)
 	{
-		if (nodes[idx].type != T_cmd && nodes[idx].type != T_pipe)
+		if (nodes[idx].type == T_cmd)
 		{
-			ret_code = exec_run(&exec);
-			if (((ret_code != 0) + 1) == nodes[idx].type)
-				break ;
-			if (!init_exec(&exec, vars, 0))
-				return (0);
-		}
-		else if (nodes[idx].type == T_cmd)
 			if (!add_exec(&exec, &(nodes + idx)->str, vars))
-				break ;
+			{
+				if (!g_process_killed)
+					continue ;
+				exec_destroy(&exec);
+				return (update_ret_code(130, vars));
+			}
+		}
 	}
 	if (nodes[idx].str == NULL)
 		ret_code = exec_run(&exec);

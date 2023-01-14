@@ -24,6 +24,7 @@ void	handle_abort_line_input(int sign)
 void	handle_abort_line_exec(int sign)
 {
 	(void)sign;
+	g_process_killed = 1;
 }
 
 void	handle_abort_line_here_doc(int sign)

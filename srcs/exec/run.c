@@ -13,6 +13,8 @@
 #include "exec.h"
 #include "exec_internal.h"
 
+int	g_process_killed = 0;
+
 static int	run_single(t_exec *exec)
 {
 	t_builtin	builtin;
@@ -120,6 +122,7 @@ int	exec_run(t_exec *exec)
 {
 	int	res;
 
+	g_process_killed = 0;
 	if (!exec || !exec->cmds)
 		return (1);
 	if (exec->cmds->size <= 0)
@@ -130,6 +133,8 @@ int	exec_run(t_exec *exec)
 		res = run_pipe(exec);
 	else
 		res = run_single(exec);
+	if (g_process_killed)
+		res = 130;
 	clean(exec);
 	return (res);
 }
