@@ -55,7 +55,7 @@ static int	add_redir(t_exec_cmd *cmd, char *str, char *path)
 	else if (ft_strncmp(str, "<<", 2) == 0)
 	{
 		close_if_needed(cmd, STDIN_FILENO);
-		cmd->redir_in = here_doc_fd(path, "> ");
+		cmd->redir_in = here_doc_fd(path, "> ", cmd->vars);
 	}
 	else if (ft_strncmp(str, ">", 1) == 0)
 	{
@@ -76,7 +76,7 @@ int	make_redirs(t_ftfrwlist *list, t_exec_cmd *cmd)
 	t_ftfrwlist_node	*node;
 
 	if (!cmd)
-		return (solo_redir(list));
+		return (solo_redir(list, NULL));
 	node = list->first;
 	while (node)
 	{

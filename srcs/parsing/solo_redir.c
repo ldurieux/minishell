@@ -13,12 +13,12 @@
 #include "parsing.h"
 #include "input.h"
 
-int	eat_here_doc(char *str)
+int	eat_here_doc(char *str, t_ftmap *vars)
 {
 	char	*old_str;
 
 	old_str = str;
-	str = here_doc(str, "> ");
+	str = here_doc(str, "> ", vars);
 	free(old_str);
 	if (!str)
 		return (0);
@@ -35,7 +35,7 @@ static char	*get_path(char *str)
 	return (str);
 }
 
-static int	add_redir(char *str, char *path)
+static int	add_redir(char *str, char *path, t_ftmap *vars)
 {
 	int		fd;
 	char	*res;
@@ -45,7 +45,7 @@ static int	add_redir(char *str, char *path)
 		fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (ft_strncmp(str, "<<", 2) == 0)
 	{
-		res = here_doc(path, "> ");
+		res = here_doc(path, "> ", vars);
 		if (!res)
 			return (0);
 		free(res);
@@ -60,7 +60,7 @@ static int	add_redir(char *str, char *path)
 	return (fd != -1);
 }
 
-int	solo_redir(t_ftfrwlist *list)
+int	solo_redir(t_ftfrwlist *list, t_ftmap *vars)
 {
 	char				*path;
 	t_ftfrwlist_node	*node;
@@ -69,7 +69,7 @@ int	solo_redir(t_ftfrwlist *list)
 	while (node)
 	{
 		path = get_path(node->value);
-		if (!add_redir(node->value, path))
+		if (!add_redir(node->value, path, vars))
 		{
 			if (errno != 0)
 				ft_dprintf(2, "%s: %s: %s\n", NAME, path, strerror(errno));

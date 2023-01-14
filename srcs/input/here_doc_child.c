@@ -92,7 +92,7 @@ char	*here_doc_res(int fd)
 	return (res);
 }
 
-char	*here_doc_child(char *end_str, char *ps2, int fd)
+char	*here_doc_child(char *end_str, char *ps2, int fd, t_ftmap *vars)
 {
 	char			*buffer;
 	t_ftvector		*str;
@@ -107,6 +107,7 @@ char	*here_doc_child(char *end_str, char *ps2, int fd)
 	buffer = readline(ps2);
 	while (ft_strcmp(buffer, end_str) && buffer)
 	{
+		buffer = here_doc_replace_vars(buffer, vars);
 		i = -1;
 		while (buffer[++i])
 			ft_vector_push_back(str, &buffer[i]);

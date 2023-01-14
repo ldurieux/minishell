@@ -27,10 +27,11 @@
 # include "ft_frwlist.h"
 
 char	*get_input(char *ps1);
-char	*here_doc(char *end_str, char *ps2);
-int		here_doc_fd(char *end_str, char *ps2);
+char	*here_doc(char *end_str, char *ps2, t_ftmap *vars);
+int		here_doc_fd(char *end_str, char *ps2, t_ftmap *vars);
 
-char	*here_doc_child(char *end_str, char *ps2, int fd);
+char	*here_doc_child(char *end_str, char *ps2, int fd, t_ftmap *vars);
 char	*here_doc_res(int fd);
+char *here_doc_replace_vars(char *str, t_ftmap *vars);
 
 #endif

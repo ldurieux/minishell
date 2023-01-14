@@ -40,7 +40,7 @@ static int	here_doc_fd_res(pid_t pid, int fd)
 	return (fd);
 }
 
-int	here_doc_fd(char *end_str, char *ps2)
+int	here_doc_fd(char *end_str, char *ps2, t_ftmap *vars)
 {
 	int				pipes[2];
 	pid_t			pid;
@@ -57,7 +57,7 @@ int	here_doc_fd(char *end_str, char *ps2)
 	if (pid == 0)
 	{
 		close(pipes[0]);
-		here_doc_child(end_str, ps2, pipes[1]);
+		here_doc_child(end_str, ps2, pipes[1], vars);
 	}
 	close(pipes[1]);
 	res = here_doc_fd_res(pid, pipes[0]);
@@ -65,7 +65,7 @@ int	here_doc_fd(char *end_str, char *ps2)
 	return (res);
 }
 
-char	*here_doc(char *end_str, char *ps2)
+char	*here_doc(char *end_str, char *ps2, t_ftmap *vars)
 {
-	return (here_doc_res(here_doc_fd(end_str, ps2)));
+	return (here_doc_res(here_doc_fd(end_str, ps2, vars)));
 }
