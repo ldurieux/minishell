@@ -58,29 +58,38 @@ static char	**make_args(t_ftfrwlist *list)
 	idx = 0;
 	while (node)
 	{
-		res[idx++] = node->value;
+		res[idx++] = ft_strdup(node->value);
 		node = node->next;
 	}
 	return (res);
 }
 
-static int	add_exec_init(char **line, t_ftmap *vars, t_ftfrwlist **toks,
+static int	add_exec_init(char *line, t_ftmap *vars, t_ftfrwlist **toks,
 							t_ftfrwlist **redirs)
 {
-	int		skip_first;
-	size_t	idx;
+	size_t				idx;
+	t_ftfrwlist_node	*node;
 
-	*line = replace_vars(*line, vars);
-	if (!*line)
-		return (0);
-	if (!tokenize(toks, *line))
-		return (0);
 	idx = (size_t)-1;
-	while (ft_is_whitespace((*line)[++idx]))
+	while (ft_is_whitespace(line[++idx]))
 		;
-	skip_first = ((*line)[idx] == '\'' || (*line)[idx] == '\"');
-	if (!extract_redirs(*toks, redirs, skip_first))
+	if (!extract_redirs(*toks, redirs, line[idx] == '\'' || line[idx] == '\"'))
 		return (0);
+	node = (*toks)->first;
+	while (node)
+	{
+		node->value = replace_vars(node->value, vars);
+		remove_quotes(node->value);
+		node = node->next;
+	}
+	node = (*redirs)->first;
+	while (node)
+	{
+		if (ft_strncmp(node->value, "<<", 2) != 0)
+			node->value = replace_vars(node->value, vars);
+		remove_quotes(node->value);
+		node = node->next;
+	}
 	return (1);
 }
 
@@ -91,7 +100,9 @@ int	add_exec(t_exec *exec, char **line, t_ftmap *vars)
 	t_exec_cmd			*cmd;
 	char				**args;
 
-	if (!add_exec_init(line, vars, &toks, &redirs))
+	if (!tokenize(&toks, *line))
+		return (0);
+	if (!add_exec_init(*line, vars, &toks, &redirs))
 		return (0);
 	cmd = NULL;
 	if (toks->size != 0)
@@ -99,11 +110,11 @@ int	add_exec(t_exec *exec, char **line, t_ftmap *vars)
 		args = make_args(toks);
 		if (!args)
 			return (del_list(redirs), del_list(toks), 0);
-		cmd = exec_add_cmd(exec, toks->first->value, args);
+		cmd = exec_add_cmd(exec, ft_strdup(toks->first->value), args);
 	}
 	if (!make_redirs(redirs, cmd))
 		return (exec_rm_last_cmd(exec), del_list(redirs), del_list(toks), 0);
-	ft_frwlist_delete(toks);
+	del_list(toks);
 	del_list(redirs);
 	return (1);
 }

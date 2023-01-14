@@ -56,7 +56,6 @@ static void	delete_list(t_ftfrwlist *list)
 int	tokenize(t_ftfrwlist **list, char *line)
 {
 	size_t				idx;
-	t_ftfrwlist_node	*node;
 
 	*list = ft_frwlist_new();
 	if (!*list)
@@ -68,12 +67,6 @@ int	tokenize(t_ftfrwlist **list, char *line)
 			return (delete_list(*list), 0);
 		if (!line[idx])
 			break ;
-	}
-	node = (*list)->first;
-	while (node)
-	{
-		remove_quotes(node->value);
-		node = node->next;
 	}
 	return (1);
 }

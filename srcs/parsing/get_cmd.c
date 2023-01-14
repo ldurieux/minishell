@@ -12,51 +12,51 @@
 
 #include "parsing.h"
 
-static void	next_cmd_loop(char *line, int *i, char *sp_char)
+static void	eat_quote(char **str)
 {
-	if (!*sp_char)
-	{
-		if (!*i)
-		{
-			if ((line[*i] == '\"') || (line[*i] == '\''))
-				*sp_char = line[*i];
-		}
-		else if (((line[*i + 1] == '\"') || (line[*i + 1] == '\''))
-			&& line[*i] != '\\')
-			*sp_char = line[*i + 1];
-	}
-	else if (*sp_char)
-	{
-		if ((line[*i] != '\\') && (line[*i + 1] == *sp_char))
-			*sp_char = 0;
-	}
+	char	quote;
+	char	*new_str;
+
+	new_str = *str;
+	quote = *new_str;
+	if (quote != '\"' && quote != '\'')
+		return ;
+	new_str++;
+	while (*new_str && *new_str != quote)
+		new_str++;
+	*str = new_str;
+}
+
+static int	next_cmd_sep(char *str)
+{
+	if (ft_strncmp(str, "||", 2) == 0)
+		return (T_or);
+	if (ft_strncmp(str, "&&", 2) == 0)
+		return (T_and);
+	if (str[0] == '|')
+		return (T_pipe);
+	return (0);
 }
 
 int	find_next_cmd(char *line, int offset, char *sp_char, int sep)
 {
-	int		i;
+	char	*save_line;
 
-	i = offset;
-	if (!line[i])
+	(void)sp_char;
+	line += offset;
+	save_line = line;
+	if (!*line)
 		return (1);
-	if (is_separator(line, i))
+	sep = next_cmd_sep(line);
+	if (sep)
+		return (1 + (sep == T_or || sep == T_and));
+	while (*line)
 	{
-		sep = is_separator(line, i);
-		if (sep == T_or || sep == T_and)
-			return (2);
-		else
-			return (1);
+		if (next_cmd_sep(line))
+			return (line - save_line);
+		eat_quote(&line);
+		if (*line)
+			line++;
 	}
-	else
-	{
-		while (line[i + 1])
-		{
-			next_cmd_loop(line, &i, sp_char);
-			if (is_separator(line, i) && !*sp_char)
-				return (i - offset);
-			i++;
-		}
-	}
-	i += 2;
-	return (i - offset);
+	return (line - save_line);
 }

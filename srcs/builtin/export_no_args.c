@@ -27,6 +27,7 @@ static void	*make_entry(void *ptr)
 	tab[3] = "\"";
 	tab[4] = NULL;
 	str = ft_strjoin_r(tab, "");
+	free(tab[0]);
 	return (str);
 }
 
@@ -63,7 +64,12 @@ void	export_no_args(t_ftmap *vars)
 	if (!array)
 		return ;
 	sort_array(array, vars->size);
-	idx = (size_t)-1;
+	idx = (size_t)0;
+	free(array[0]);
 	while (array[++idx])
+	{
 		ft_printf("declare -x %s\n", array[idx]);
+		free(array[idx]);
+	}
+	free(array);
 }
