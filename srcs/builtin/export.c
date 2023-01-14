@@ -61,6 +61,8 @@ int	main_export(int argc, char **argv, char **envp, t_ftmap *vars)
 	int	idx;
 
 	(void)envp;
+	if (argc == 1)
+		export_no_args(vars);
 	idx = 0;
 	while (++idx < argc)
 		export(vars, argv[idx]);

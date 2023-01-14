@@ -31,4 +31,6 @@ int			main_unset(int argc, char **argv, char **envp, t_ftmap *vars);
 int			main_env(int argc, char **argv, char **envp, t_ftmap *vars);
 int			main_exit(int argc, char **argv, char **envp, t_ftmap *vars);
 
+void		export_no_args(t_ftmap *vars);
+
 #endif // BUILTIN_H

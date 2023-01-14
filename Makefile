@@ -22,6 +22,7 @@ SRCS		= \
 			  srcs/builtin/pwd.c \
 			  srcs/builtin/exit.c \
 			  srcs/builtin/export.c \
+			  srcs/builtin/export_no_args.c \
 			  srcs/input/input.c \
 			  srcs/input/here_doc.c \
 			  srcs/input/here_doc_child.c \
