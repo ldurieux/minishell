@@ -19,6 +19,7 @@ void	handle_abort_line_input(int sign)
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();
+	g_process_killed = 2;
 }
 
 void	handle_abort_line_exec(int sign)

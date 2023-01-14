@@ -27,6 +27,13 @@
 # define PIPE_OUT 0
 # define ERROR_CODE 127
 
+typedef struct s_func_vars
+{
+	int					pipes[4];
+	t_ftfrwlist_node	*node;
+	pid_t				*pids;
+}	t_func_vars;
+
 typedef struct s_exec		t_exec;
 typedef struct s_exec_cmd	t_exec_cmd;
 
