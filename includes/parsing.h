@@ -59,7 +59,7 @@ int		ft_check_line(char *line);
 int		ft_check_esp(char *line);
 int		is_separator(char *line, int i);
 void	get_separator(int *separator, char *line, int *i, int *nb_cmd);
-int		find_next_cmd(char *line, int offset, char *sp_char, int sep);
+int		find_next_cmd(char *line, int offset);
 void	set_type(t_node *node);
 void	fill_node_tab(char **cmd_list, t_node *node_tab);
 int		ft_check_sep(char *line);

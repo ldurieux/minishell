@@ -51,9 +51,7 @@ char	**ft_split_cmd_line(char *line, int nb_cmd)
 	char		**cmd_tab;
 	int			i;
 	t_cmd_info	cmd;
-	char		sp_char;
 
-	sp_char = 0;
 	i = 0;
 	cmd.offset = 0;
 	cmd_tab = malloc(sizeof(char *) * (nb_cmd + 1));
@@ -62,7 +60,7 @@ char	**ft_split_cmd_line(char *line, int nb_cmd)
 	while (i < nb_cmd)
 	{
 		cmd.cmd_number = i;
-		cmd.size = find_next_cmd(line, cmd.offset, &sp_char, 0);
+		cmd.size = find_next_cmd(line, cmd.offset);
 		cmd_tab[i] = malloc(sizeof(char) * cmd.size + 1);
 		if (!cmd_tab[i])
 			return (free_cmd_tab(cmd_tab, i + 1), (char **)0);

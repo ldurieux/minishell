@@ -38,11 +38,11 @@ static int	next_cmd_sep(char *str)
 	return (0);
 }
 
-int	find_next_cmd(char *line, int offset, char *sp_char, int sep)
+int	find_next_cmd(char *line, int offset)
 {
 	char	*save_line;
+	int		sep;
 
-	(void)sp_char;
 	line += offset;
 	save_line = line;
 	if (!*line)
