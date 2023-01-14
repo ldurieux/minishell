@@ -68,7 +68,6 @@ static int	init_shell_lvl(t_ftmap *vars)
 
 static int	init_vars(t_ftmap *vars)
 {
-	g_pids = NULL;
 	if (!init_ret_code(vars))
 		return (0);
 	if (!init_shell_lvl(vars))

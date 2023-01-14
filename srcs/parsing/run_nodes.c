@@ -29,6 +29,8 @@ static int	update_ret_code(int ret_code, t_ftmap *vars)
 	t_vars	*var;
 
 	var = ft_map_find(vars, "?");
+	if (!var)
+		return (0);
 	free(var->value);
 	var->value = ft_itoa(ret_code);
 	return (var->value != NULL);

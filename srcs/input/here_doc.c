@@ -12,22 +12,6 @@
 
 #include "input.h"
 
-static void	handle_abort_line(int sign)
-{
-	int	i;
-
-	(void) sign;
-	if (!g_pids)
-		return ;
-	i = 0;
-	while (g_pids[i])
-	{
-		kill(g_pids[i], SIGINT);
-		i++;
-	}
-	write(1, "\n", 1);
-}
-
 static int	here_doc_fd_res(pid_t pid, int fd)
 {
 	int		ret_code;
@@ -47,7 +31,7 @@ int	here_doc_fd(char *end_str, char *ps2, t_ftmap *vars)
 	struct termios	saved;
 	int				res;
 
-	signal(SIGINT, handle_abort_line);
+	signal(SIGINT, handle_abort_line_exec);
 	tcgetattr(STDIN_FILENO, &saved);
 	if (pipe(pipes) == -1)
 		return (ft_dprintf(STDERR_FILENO, "%s\n", strerror(errno)), -1);
@@ -62,6 +46,7 @@ int	here_doc_fd(char *end_str, char *ps2, t_ftmap *vars)
 	close(pipes[1]);
 	res = here_doc_fd_res(pid, pipes[0]);
 	tcsetattr(STDIN_FILENO, TCSANOW, &saved);
+	signal(SIGINT, handle_abort_line_input);
 	return (res);
 }
 

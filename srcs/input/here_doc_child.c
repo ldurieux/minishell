@@ -12,13 +12,6 @@
 
 #include "input.h"
 
-static void	handle_abort_line(int sign)
-{
-	(void) sign;
-	write(1, "\n", 1);
-	exit(127);
-}
-
 static char	*list_to_str(t_ftfrwlist *list)
 {
 	size_t				size;
@@ -102,7 +95,7 @@ char	*here_doc_child(char *end_str, char *ps2, int fd, t_ftmap *vars)
 	tcgetattr(STDIN_FILENO, &attributes);
 	attributes.c_lflag &= ECHO;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
-	signal(SIGINT, handle_abort_line);
+	signal(SIGINT, handle_abort_line_here_doc);
 	str = ft_vector_new(sizeof(char), 32);
 	buffer = readline(ps2);
 	while (ft_strcmp(buffer, end_str) && buffer)

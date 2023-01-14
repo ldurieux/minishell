@@ -12,6 +12,7 @@
 
 #include "exec.h"
 #include "exec_internal.h"
+#include "input.h"
 
 static char	*list_to_str(t_ftfrwlist *list)
 {
@@ -77,14 +78,11 @@ int	get_child_ret_code(t_exec *exec, pid_t child_pid)
 {
 	int	ret_code;
 
-	g_pids = ft_calloc(sizeof(pid_t), 2);
-	g_pids[0] = child_pid;
+	signal(SIGINT, handle_abort_line_exec);
 	waitpid(child_pid, &ret_code, 0);
 	ret_code = WEXITSTATUS(ret_code);
 	if (exec->buffer_fd != -1)
 		exec->buffer_out = read_all(exec->buffer_fd);
-	free(g_pids);
-	g_pids = NULL;
 	return (ret_code);
 }
 
@@ -93,7 +91,7 @@ int	get_pipe_ret_code(t_exec *exec, pid_t *pids, size_t count)
 	int		ret_code;
 	size_t	idx;
 
-	g_pids = pids;
+	signal(SIGINT, handle_abort_line_exec);
 	ret_code = ERROR_CODE;
 	idx = (size_t)-1;
 	while (++idx < count)
@@ -103,7 +101,5 @@ int	get_pipe_ret_code(t_exec *exec, pid_t *pids, size_t count)
 	}
 	if (exec->buffer_fd != -1)
 		exec->buffer_out = read_all(exec->buffer_fd);
-	free(g_pids);
-	g_pids = NULL;
 	return (ret_code);
 }

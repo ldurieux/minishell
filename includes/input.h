@@ -34,4 +34,8 @@ char	*here_doc_child(char *end_str, char *ps2, int fd, t_ftmap *vars);
 char	*here_doc_res(int fd);
 char	*here_doc_replace_vars(char *str, t_ftmap *vars);
 
+void	handle_abort_line_input(int sign);
+void	handle_abort_line_exec(int sign);
+void	handle_abort_line_here_doc(int sign);
+
 #endif

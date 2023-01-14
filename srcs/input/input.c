@@ -13,22 +13,6 @@
 #include "input.h"
 #include "exec.h"
 
-static void	handle_abort_line(int sign)
-{
-	(void) sign;
-	if (!g_pids)
-	{
-		rl_replace_line("", 0);
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	else if (0)
-	{
-		write(1, "\n", 1);
-	}
-}
-
 static void	handle_quit(int sign)
 {
 	(void) sign;
@@ -56,7 +40,7 @@ char	*get_input(char *ps1)
 	tcgetattr(STDIN_FILENO, &attributes);
 	attributes.c_lflag &= ECHO;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
-	signal(SIGINT, handle_abort_line);
+	signal(SIGINT, handle_abort_line_input);
 	signal(SIGQUIT, handle_quit);
 	buffer = NULL;
 	while (!buffer)

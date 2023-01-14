@@ -13,8 +13,6 @@
 #include "exec.h"
 #include "exec_internal.h"
 
-pid_t	*g_pids = NULL;
-
 static int	run_single(t_exec *exec)
 {
 	t_builtin	builtin;

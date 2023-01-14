@@ -27,6 +27,7 @@ SRCS		= \
 			  srcs/input/here_doc.c \
 			  srcs/input/here_doc_child.c \
 			  srcs/input/here_doc_replace_vars.c \
+			  srcs/input/handle_abort_line.c \
 			  srcs/vars/vars.c \
 			  srcs/vars/vars_print.c \
 			  srcs/vars/vars_convert.c \
