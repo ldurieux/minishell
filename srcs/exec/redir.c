@@ -24,6 +24,7 @@ static int	redir_one_parent(int *fd, int old_fd)
 			return (0);
 		if (dup2(*fd, old_fd) == -1)
 			return (close(save_fd), 0);
+		close(*fd);
 		*fd = save_fd;
 	}
 	return (1);

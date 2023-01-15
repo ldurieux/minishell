@@ -42,6 +42,7 @@ int	run_nodes(t_node *nodes, t_ftmap *vars)
 	size_t	idx;
 	int		ret_code;
 
+	ret_code = 0;
 	if (g_process_killed == 2)
 		update_ret_code(1, vars);
 	g_process_killed = 0;
