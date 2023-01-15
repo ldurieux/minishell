@@ -12,18 +12,6 @@
 
 #include "parsing.h"
 
-static int	init_exec(t_exec *exec, t_ftmap *vars, int first)
-{
-	char	**envp;
-
-	if (!first)
-		exec_destroy(exec);
-	envp = ft_vars_to_envp(vars);
-	if (!envp)
-		return (0);
-	return (exec_init(exec, envp, vars));
-}
-
 static int	update_ret_code(int ret_code, t_ftmap *vars)
 {
 	t_vars	*var;
@@ -36,6 +24,21 @@ static int	update_ret_code(int ret_code, t_ftmap *vars)
 	return (var->value != NULL);
 }
 
+static int	init_exec(t_exec *exec, t_ftmap *vars, int first)
+{
+	char	**envp;
+
+	if (g_process_killed == 2)
+		update_ret_code(1, vars);
+	g_process_killed = 0;
+	if (!first)
+		exec_destroy(exec);
+	envp = ft_vars_to_envp(vars);
+	if (!envp)
+		return (0);
+	return (exec_init(exec, envp, vars));
+}
+
 int	run_nodes(t_node *nodes, t_ftmap *vars)
 {
 	t_exec	exec;
@@ -43,9 +46,6 @@ int	run_nodes(t_node *nodes, t_ftmap *vars)
 	int		ret_code;
 
 	ret_code = 0;
-	if (g_process_killed == 2)
-		update_ret_code(1, vars);
-	g_process_killed = 0;
 	idx = (size_t)-1;
 	if (!init_exec(&exec, vars, 1))
 		return (0);
@@ -58,7 +58,7 @@ int	run_nodes(t_node *nodes, t_ftmap *vars)
 				if (!g_process_killed)
 					continue ;
 				exec_destroy(&exec);
-				return (update_ret_code(130, vars));
+				return (update_ret_code(1, vars));
 			}
 		}
 	}
