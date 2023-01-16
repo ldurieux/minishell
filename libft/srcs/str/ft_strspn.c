@@ -56,7 +56,7 @@ size_t	ft_strcspn(const char *str, const char *reject)
 	if (!str || !reject)
 		return (0);
 	i = 0;
-	while (!ft_match_one_of(str[i], reject))
+	while (str[i] && !ft_match_one_of(str[i], reject))
 		i++;
 	return (i);
 }
