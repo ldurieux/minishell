@@ -41,7 +41,7 @@ char	*replace_vars(char *str, t_ftmap *vars)
 	while (str[++i])
 	{
 		find_var(str, &i, &simple_quote);
-		if (str[i] != '$' || ft_strcspn(str + i + 1, CHR))
+		if (str[i] != '$' || !str[i + 1] || ft_strcspn(str + i + 1, CHR))
 			continue ;
 		var_name = get_var_name(&str[i + 1]);
 		if (!var_name)
